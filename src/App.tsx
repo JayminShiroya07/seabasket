@@ -7,6 +7,7 @@ import Profile from './components/Profile'
 import ContactUs from './components/ContactUs'
 import Login from './components/Login'
 import CartList from './components/CartList'
+import ProductLayout from './layouts/ProducLayout'
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
         },
         {
           path: 'products',
-          element: <ProductList/>
+          element: <ProductLayout/>
         },
         {
           path: 'profile',

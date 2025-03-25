@@ -7,7 +7,7 @@ export default function MainLayout() {
       <nav>
         <Header />
       </nav>
-      <section className="w-full lg:mt-15">
+      <section className="w-full lg:mt-15 mt-19">
         <Outlet />
       </section>
     </div>
