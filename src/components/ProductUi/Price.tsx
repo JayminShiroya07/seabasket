@@ -2,11 +2,12 @@ import React from "react";
 
 interface ChildNode {
     children?: React.ReactNode;
+    className?: string;
 }
 
 const Price : React.FC<ChildNode> = (props) => {
     return (
-        <h2>₹{props.children}</h2>
+        <h2 className={props.className}>₹{props.children}</h2>
     );
 }
 

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { products as initialProducts, Product } from "../data/products";
 import ProductItem from "./ProductItem";
-import { prod } from "@tensorflow/tfjs";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -12,47 +11,120 @@ export default function ProductList() {
 
   return (
     <div className="overflow-auto">
-      <div className="flex w-full  flex-wrap p-3">
+      <div className="flex w-full flex-wrap p-2 justify-evenly">
         {products.map((product) => (
           <ProductItem
             key={product.id}
-            className="w-full sm:w-1/2 md:w-1/3 p-2"
+            className="w-full sm:w-1/2 md:w-1/3 p-2 flex overflow-hidden bg-transparent transition-shadow"
           >
-            <div className="border rounded-md md:flex gap-2 w-full overflow-hidden">
+            <div className="border hover:shadow-xl bg-transparent rounded-md md:flex gap-2 w-full overflow-hidden shadow-gray-200">
               <ProductItem.Image
                 image={product.image}
-                className="bg-red-400 w-full md:w-auto rounded-r-md rounded-bl-none cursor-pointer"
+                className=" w-full h-60 md:h-auto md:w-auto rounded-r-md rounded-bl-none cursor-pointer"
               />
-              <div className="flex flex-col justify-between p-2 w-full">
-                <ProductItem.Title>{product.title}</ProductItem.Title>
-                <ProductItem.Description>
-                  {product.description}
-                </ProductItem.Description>
-                <ProductItem.Price>{product.price}</ProductItem.Price>
-                <div>
-                  <ProductItem.Ratings rating={product.rating} />
+              <div className="flex flex-col justify-between p-4 w-full">
+                {/* Title */}
+                <ProductItem.Title className="text-xl font-bold text-gray-900">
+                  {product.title}
+                </ProductItem.Title>
+
+                {/* Description, Price, and Rating */}
+                <div className="flex flex-col gap-2">
+                  <ProductItem.Description className="text-gray-600 text-sm">
+                    {product.description}
+                  </ProductItem.Description>
+                  <ProductItem.Price className="text-lg font-semibold text-gray-900">
+                    {product.price}
+                  </ProductItem.Price>
+
+                  {/* Ratings */}
+                  <div className="flex items-center space-x-1 text-yellow-500">
+                    <ProductItem.Ratings rating={product.rating} />
+                  </div>
                 </div>
-                <div className="flex gap-2 w-full justify-between">
+
+                {/* Action Buttons */}
+                <div className="flex items-center gap-2 w-full mt-4">
+                  {/* Add to Cart Button */}
                   <ProductItem.Button
                     type="cart"
-                    className="w-1/5 h-12 cursor-pointer text-primary bg-cyan-800 rounded"
+                    className="w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                     icon="fas fa-shopping-cart"
                   />
+
+                  {/* Buy Now Button */}
                   <ProductItem.Button
                     type="buy"
-                    className="w-3/5 h-12 cursor-pointer text-white bg-cyan-800 rounded"
+                    className="flex-1 h-12 text-blue-600 border-2 border-blue-600 bg-white rounded-lg hover:bg-blue-100 transition flex items-center justify-center font-semibold"
                   >
-                    Buy now
+                    Buy Now
                   </ProductItem.Button>
+
+                  {/* Wishlist Button */}
                   <ProductItem.Button
                     type="wishlist"
-                    className="w-1/5 h-12 cursor-pointer text-white bg-cyan-800 rounded"
+                    className="w-12 h-12 flex items-center justify-center bg-red-500 text-white rounded-full hover:bg-red-600 transition"
                     icon="fas fa-heart"
                   />
                 </div>
               </div>
             </div>
           </ProductItem>
+          // <ProductItem className="flex border w-fit border-gray-300 shadow-lg rounded-md overflow-hidden bg-white hover:shadow-xl transition-shadow">
+          //   {/* Product Image */}
+          //   <ProductItem.Image
+          //     image={product.image}
+          //     className="w-48 h-60 object-cover rounded-l-md cursor-pointer"
+          //   />
+
+          //   {/* Product Details */}
+          //   <div className="flex flex-col justify-between p-4 w-full">
+          //     {/* Title */}
+          //     <ProductItem.Title className="text-xl font-bold text-gray-900">
+          //       {product.title}
+          //     </ProductItem.Title>
+
+          //     {/* Description, Price, and Rating */}
+          //     <div className="flex flex-col gap-2">
+          //       <ProductItem.Description className="text-gray-600 text-sm">
+          //         {product.description}
+          //       </ProductItem.Description>
+          //       <ProductItem.Price className="text-lg font-semibold text-gray-900">
+          //         {product.price}
+          //       </ProductItem.Price>
+
+          //       {/* Ratings */}
+          //       <div className="flex items-center space-x-1 text-yellow-500">
+          //         <ProductItem.Ratings rating={product.rating} />
+          //       </div>
+          //     </div>
+
+          //     {/* Action Buttons */}
+          //     <div className="flex items-center gap-2 w-full mt-4">
+          //       {/* Add to Cart Button */}
+          //       <ProductItem.Button
+          //         type="cart"
+          //         className="w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          //         icon="fas fa-shopping-cart"
+          //       />
+
+          //       {/* Buy Now Button */}
+          //       <ProductItem.Button
+          //         type="buy"
+          //         className="flex-1 h-12 text-blue-600 border-2 border-blue-600 bg-white rounded-lg hover:bg-blue-100 transition flex items-center justify-center font-semibold"
+          //       >
+          //         Buy Now
+          //       </ProductItem.Button>
+
+          //       {/* Wishlist Button */}
+          //       <ProductItem.Button
+          //         type="wishlist"
+          //         className="w-12 h-12 flex items-center justify-center bg-red-500 text-white rounded-full hover:bg-red-600 transition"
+          //         icon="fas fa-heart"
+          //       />
+          //     </div>
+          //   </div>
+          // </ProductItem>
         ))}
       </div>
     </div>
