@@ -2,11 +2,12 @@ import React from "react";
 
 interface ChildNode {
     children?: React.ReactNode;
+    className?: string;
 }
 
 const Description : React.FC<ChildNode> = (props) => {
     return (
-        <h2 className="font-light text-gray-800">{props.children}</h2>
+        <p className={props.className}>{props.children}</p>
     );
 }
 

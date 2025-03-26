@@ -20,12 +20,12 @@ export default function ProductLayout() {
   return (
     <div className="w-full md:mt-0 h-[calc(100vh-3.8rem)]">
       <Searchbar onToggle={toggleFilter} />
-      <div className="flex w-full flex-wrap">
-        <div className="w-full mt-20 flex gap-1">
+      <div className="flex w-full flex-wrap bg-gray-20s0">
+        <div className="w-full mt-16 flex gap-1">
           <AnimatePresence>
             {isVisible && (
               <motion.div
-                className="w-2/5 md:w-1/5 md:relative fixed h-full [&::-webkit-scrollbar]:hidden"
+                className="w-3/5 md:w-1/5 md:relative fixed h-full [&::-webkit-scrollbar]:hidden"
                 initial="hidden"
                 animate="visible"
                 exit="hidden"

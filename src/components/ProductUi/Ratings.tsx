@@ -17,13 +17,19 @@ const Ratings : React.FC<ChildNode> = (props) => {
                 return (
                     <>
                         {Array.from({ length: fullStars }, (_, i) => (
-                            <span key={`full-${i}`} style={{ color: "gold", fontSize: "1.2em" }}>★</span>
+                            <span key={`full-${i}`} style={{ color: "gold", fontSize: "1.2em" }}>
+                                <i className="fas fa-star"></i>
+                            </span>
                         ))}
                         {halfStar && (
-                            <span key="half" style={{ color: "gold", fontSize: "1.2em" }}>☆</span>
+                            <span key="half" style={{ color: "gold", fontSize: "1.2em" }}>
+                                <i className="fas fa-star-half-alt"></i>
+                            </span>
                         )}
                         {Array.from({ length: emptyStars }, (_, i) => (
-                            <span key={`empty-${i}`} style={{ color: "lightgray", fontSize: "1.2em" }}>★</span>
+                            <span key={`empty-${i}`} style={{ color: "lightgray", fontSize: "1.2em" }}>
+                                <i className="far fa-star"></i>
+                            </span>
                         ))}
                     </>
                 );

@@ -1,10 +1,14 @@
-export default function FilterSidenav(){
-    return (
-        <div className="flex w-full bg-cyan-700 h-full flex-wrap p-3">
-            <h1>FilterSidenav</h1>
+import PriceRange from "../components/FilterUi/PriceRange";
+import SortList from "../components/FilterUi/SortList";
 
-            <p>This is the filter sidenav page.</p>
-        </div>
-
-    )
+export default function FilterSidenav() {
+  return (
+    <>
+      <div className="w-full bg-secondary h-full z-20 flex-wrap p-6 shadow-2xl">
+        <SortList />
+        <hr className="my-6  w-full" />
+        <PriceRange />
+      </div>
+    </>
+  );
 }

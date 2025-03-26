@@ -1,21 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --primary-color: #00C896;
-  --primary-dark: #007A5E;
-  --secondary-color: #005A46;
-  --accent-color: #FF7043;
-  --neutral-light: #F5F5F5;
-  --neutral-dark: #333333;
+  /* Modern & Trustworthy Palette */
+  --primary-color: #1E40AF; /* Blue */
+  --secondary-color: #a0cbf7; /* White */
+  --accent-color: #F97316; /* Orange */
+  --text-color: #374151; /* Dark Gray */
+  --success-color: #10B981; /* Green */
+  --error-color: #EF4444; /* Red */
 }
 
-
+/* Background Colors */
 .bg-primary {
   background-color: var(--primary-color);
-}
-
-.bg-primary-dark {
-  background-color: var(--primary-dark);
 }
 
 .bg-secondary {
@@ -26,6 +23,15 @@
   background-color: var(--accent-color);
 }
 
+.bg-success {
+  background-color: var(--success-color);
+}
+
+.bg-error {
+  background-color: var(--error-color);
+}
+
+/* Text Colors */
 .text-primary {
   color: var(--primary-color);
 }
@@ -38,8 +44,17 @@
   color: var(--accent-color);
 }
 
+.text-success {
+  color: var(--success-color);
+}
 
+.text-error {
+  color: var(--error-color);
+}
+
+/* Components */
 @layer components {
+  /* Primary Button */
   .btn-primary {
     @apply px-4 py-2 rounded-lg font-semibold transition;
     background-color: var(--primary-color);
@@ -47,12 +62,35 @@
   }
 
   .btn-primary:hover {
-    background-color: var(--primary-dark);
+    background-color: #1A3A8E; /* Slightly darker blue */
   }
 
+  /* Accent Button */
+  .btn-accent {
+    @apply px-4 py-2 rounded-lg font-semibold transition;
+    background-color: var(--accent-color);
+    color: white;
+  }
+
+  .btn-accent:hover {
+    background-color: #E65C00; /* Darker orange */
+  }
+
+  /* Card */
   .card {
     @apply p-6 rounded-xl shadow-lg border;
-    background-color: var(--neutral-light);
-    border-color: var(--neutral-dark);
+    background-color: var(--secondary-color);
+    border-color: var(--text-color);
+  }
+
+  /* Alerts */
+  .alert-success {
+    @apply p-4 rounded-md text-white;
+    background-color: var(--success-color);
+  }
+
+  .alert-error {
+    @apply p-4 rounded-md text-white;
+    background-color: var(--error-color);
   }
 }

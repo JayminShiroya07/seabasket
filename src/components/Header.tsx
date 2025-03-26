@@ -13,21 +13,21 @@ const navItems = [
 export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const linkActive =
-    "hover:text-gray-400 hover:bg-[#00C896] text-2xl text-black font-semibold py-1 px-6 rounded shadow-xl btn-primary transition-all duration-300 ease-in-out hover:scale-105";
+    "hover:text-gray-400 hover:bg-secondary bg-secondary text-2xl text-black font-semibold py-1 px-6 rounded shadow-xl btn-primary transition-all duration-300 ease-in-out hover:scale-105";
   const unActive =
-    "hover:bg-[#00C896] rounded text-2xl py-1 px-6 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg";
+    "hover:bg-secondary bg-primary-dark text-secondary rounded text-2xl py-1 px-6 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg";
 
   return (
     <>
       {/* Desktop header (visible on large screens) */}
-      <header className="bg-cyan-800 text-white hidden lg:flex justify-between gap-1 items-center px-14 w-full fixed top-0 z-50 shadow-2xl">
+      <header className="bg-primary text-white hidden lg:flex justify-between gap-1 items-center px-14 w-full fixed top-0 z-50 shadow-2xl">
         <NavLink to="" className="flex items-center cursor-pointer">
           <img
             src={logo}
             alt="Logo of the site, a simple geometric shape"
             className="h-15 w-15 mr-2"
           />
-          <span className="text-xl font-bold text-primary">Seabasket</span>
+          <span className="text-xl font-bold text-white">Seabasket</span>
         </NavLink>
         <nav className="flex justify-between items-center gap-1 space-x-4">
           {navItems.map(({ name, path }) => (
@@ -46,7 +46,7 @@ export default function Header() {
             to="cart"
             className={({ isActive }) =>
               `relative rounded cursor-pointer text-2xl py-1 px-3 ${
-                isActive ? "bg-primary" : "bg-none"
+                isActive ? "bg-primary text-primary bg-secondary " : "bg-none"
               }`
             }
           >
@@ -66,7 +66,7 @@ export default function Header() {
 
       {/* Mobile/Tablet header (visible on screens smaller than lg) */}
       <div className="lg:hidden">
-        <header className="fixed top-0 left-0 right-0 z-50 bg-cyan-800 text-white p-4 flex justify-between items-center">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-primary text-white p-4 flex justify-between items-center">
           <NavLink to="" className="flex items-center cursor-pointer">
             <img
               src={logo}
@@ -79,8 +79,8 @@ export default function Header() {
             <NavLink
               to="cart"
               className={({ isActive }) =>
-                `relative rounded cursor-pointer text-2xl py-1 px-3 ${
-                  isActive ? "bg-primary" : "bg-none"
+                `relative rounded cursor-pointer text-2xl py-1 px-3 text-black ${
+                  isActive ? "bg-primary text-secondary " : "bg-none"
                 }`
               }
             >
@@ -110,11 +110,11 @@ export default function Header() {
             initial={{ x: "-100%" }}
             animate={{ x: sidebarOpen ? 0 : "-100%" }}
             transition={{ duration: 0.3 }}
-            className="bg-cyan-800 w-64 h-full p-4"
+            className="bg-primary w-64 h-full p-4"
           >
             <button
               onClick={() => setSidebarOpen(false)}
-              className="text-black shadow-lg border-cyan-800 border-2 px-3 py-2 bg-cyan-200 rounded-md text-2xl focus:outline-none mb-4"
+              className="text-black shadow-lg bg-secondary text-primary shadow-md border-2 px-3 py-2 bg-se rounded-md text-2xl focus:outline-none mb-4"
             >
               <i className="fas fa-arrow-left"></i>
             </button>
