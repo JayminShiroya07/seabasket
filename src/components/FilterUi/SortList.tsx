@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 const sortingArray = [
-    { id: 1, title: "Newest" },
-    { id: 2, title: "Price: Low to High" },
-    { id: 3, title: "Price: High to Low" },
-    { id: 4, title: "Best Selling" },
-]
+  { id: 1, title: "Newest" },
+  { id: 2, title: "Price: Low to High" },
+  { id: 3, title: "Price: High to Low" },
+  { id: 4, title: "Best Selling" },
+];
 
 export default function SortList() {
   const [category, setCategory] = useState<{ id: number; title: string }[]>([]);

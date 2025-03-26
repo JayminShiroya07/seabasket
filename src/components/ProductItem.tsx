@@ -8,12 +8,12 @@ import ActionButton from "./ProductUi/ActionButton";
 import Ratings from "./ProductUi/Ratings";
 
 
-interface ProductDetailProps {
+interface ProductItemProps {
     children?: React.ReactNode;
     className?: string;
 }
 
-interface ProductDetailCompound extends React.FC<ProductDetailProps> {
+interface ProductItemCompound extends React.FC<ProductItemProps> {
     Title: typeof Title;
     Image: typeof Image;
     Description: typeof Description;
@@ -23,16 +23,16 @@ interface ProductDetailCompound extends React.FC<ProductDetailProps> {
     Ratings : typeof Ratings;
 }
 
-const ProductDetail: ProductDetailCompound = ({ children, className }) => {
+const ProductItem: ProductItemCompound = ({ children, className }) => {
     return <div className={className}>{children}</div>;
 };
 
-ProductDetail.Title = Title;
-ProductDetail.Image = Image;
-ProductDetail.Description = Description;
-ProductDetail.Qty = Quantity;
-ProductDetail.Price = Price;
-ProductDetail.Button = ActionButton;
-ProductDetail.Ratings = Ratings;
+ProductItem.Title = Title;
+ProductItem.Image = Image;
+ProductItem.Description = Description;
+ProductItem.Qty = Quantity;
+ProductItem.Price = Price;
+ProductItem.Button = ActionButton;
+ProductItem.Ratings = Ratings;
 
-export default ProductDetail;
+export default ProductItem;
