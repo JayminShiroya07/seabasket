@@ -1,54 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { categories, Category } from "../data/category";
+import React from "react";
 
-const Searchbar : React.FC<{onToggle:()=>void}> = (props) => {
-  const [category, setCategory] = useState<Category[]>([]);
-
-  useEffect(() => {
-    setCategory(categories);
-  }, [categories]);
-
+const Searchbar: React.FC<{ onToggle: () => void }> = (props) => {
   return (
     <div className="h-16 fixed w-full md:mt-0 bg-secondary shadow-xl z-2 text-white flex items-center justify-between px-2 gap-1">
-        <div className="flex items-center gap-4">
-            <button className="bg-blue-500 text-white px-3 py-1 rounded" onClick={props.onToggle}>
-                <i className="fas fa-filter"></i>
-            </button>
-        </div>
-      <div className=" hidden md:flex items-center gap-4">
-
+      <div className="flex items-center gap-4">
+        <button
+          className="bg-blue-500 text-white px-3 py-1 rounded"
+          onClick={props.onToggle}
+        >
+          <i className="fas fa-filter"></i>
+        </button>
       </div>
+      <div className=" hidden md:flex items-center gap-4"></div>
       <div className="flex justify-end gap-2">
-        <div className="hidden md:flex">
-
-        <select
-          name="category"
-          id="category"
-          className="bg-gray-700 text-white border border-gray-600 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-          {category.map((cat) => (
-            <option
-            key={cat.id}
-            value={cat.id}
-            className="bg-gray-700 text-white"
-            >
-              {cat.title}
-            </option>
-          ))}
-        </select>
-          </div>
         <input
           type="text"
           placeholder="Search products..."
-          className="bg-white placeholder:text-black text-black md:w-55 w-1/2 border border-cyan-5 00 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+          className="bg-white placeholder:text-black text-black md:w-65 w-1/2 border border-cyan-5 00 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-300"
         />
-        <button className="bg-blue-500 text-white px-3 py-1 rounded" >
+        <button className="bg-blue-500 text-white px-3 py-1 rounded-md">
           <i className="fas fa-search"></i>
         </button>
       </div>
     </div>
   );
-}
-
+};
 
 export default Searchbar;
