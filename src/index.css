@@ -65,6 +65,17 @@
     background-color: #1A3A8E; /* Slightly darker blue */
   }
 
+  .btn-secondary {
+    @apply px-4 py-2 rounded-lg font-semibold transition;
+    background-color: var(--secondary-color);
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background-color: #1A3A8E;
+    color:white; /* Slightly darker blue */
+  }
+
   /* Accent Button */
   .btn-accent {
     @apply px-4 py-2 rounded-lg font-semibold transition;
