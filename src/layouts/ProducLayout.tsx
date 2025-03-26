@@ -37,7 +37,7 @@ export default function ProductLayout() {
             )}
           </AnimatePresence>
           <div 
-            className={`${isVisible ? "md:w-4/5" : "w-full"} [&::-webkit-scrollbar]:hidden overflow-x-scroll max-h-[calc(100vh-9rem)]`}>
+            className={`${isVisible ? "md:w-4/5" : "w-full"} [&::-webkit-scrollbar]:hidden overflow-x-scroll max-h-[calc(100vh-7.9rem)]`}>
             <ProductList />
           </div>
         </div>
