@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { categories, Category } from "../data/category";
 import ProductItem from "./ProductItem";
 import { images as categoryImage, productImages } from "../data/images";
+import Button from "../UI/Button";
 
 export default function HomePage() {
   const images = categoryImage;
@@ -68,7 +69,7 @@ export default function HomePage() {
               Unde eos illo provident esse voluptatibus possimus, iure ducimus
               consequatur explicabo quaerat!
             </p>
-            <button className="btn-primary mt-4">Shop Now</button>
+            <Button name="Shop Now" className="text-secondary px-4 py-2 btn-primary mt-4">Shop Now</Button>
           </div>
         </div>
       </section>

@@ -1,3 +1,5 @@
+import Button from "../UI/Button";
+
 const Footer = () => {
   return (
     <section className="bg-primary flex justify-center items-center flex-col pb-3">
@@ -35,11 +37,10 @@ const Footer = () => {
               className=" w-2/3 px-4 py-2 bg-white text-black font-medium rounded-l-md"
               placeholder="You Email"
             />
-            <input
+            <Button
               type="button"
               name="subscribe"
-              value="Subscribe"
-              className="btn-secondary text-black rounded-l-none"
+              className="btn-secondary px-4 py-2 text-black rounded-l-none"
             />
           </div>
         </div>

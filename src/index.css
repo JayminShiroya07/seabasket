@@ -56,7 +56,7 @@
 @layer components {
   /* Primary Button */
   .btn-primary {
-    @apply px-4 py-2 rounded-lg font-semibold transition;
+    @apply rounded-lg font-semibold transition;
     background-color: var(--primary-color);
     color: white;
   }
@@ -65,20 +65,30 @@
     background-color: #1A3A8E; /* Slightly darker blue */
   }
 
+  .btn-outline {
+    @apply rounded-lg font-semibold transition border;
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .btn-outline:hover {
+    color: white;
+  }
+
   .btn-secondary {
-    @apply px-4 py-2 rounded-lg font-semibold transition;
+    @apply  rounded-lg font-semibold transition;
     background-color: var(--secondary-color);
     color: white;
   }
 
   .btn-secondary:hover {
-    background-color: #1A3A8E;
     color:white; /* Slightly darker blue */
   }
 
   /* Accent Button */
   .btn-accent {
-    @apply px-4 py-2 rounded-lg font-semibold transition;
+    @apply rounded-lg font-semibold transition;
     background-color: var(--accent-color);
     color: white;
   }
@@ -104,4 +114,10 @@
     @apply p-4 rounded-md text-white;
     background-color: var(--error-color);
   }
+}
+
+.inner-shadow{
+  /* background: pink; */
+  box-shadow: inset 0px -5px 25px -10px rgba(0, 0, 0, 0.426);
+
 }
