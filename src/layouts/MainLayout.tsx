@@ -13,7 +13,7 @@ export default function MainLayout() {
       <section className="w-full lg:mt-15 mt-19">
         <Outlet />
       </section>
-      {location.pathname !== "/login" ? (
+      {(location.pathname !== "/login" && location.pathname !== "/signup") ? (
         <section>
           <Footer />
         </section>

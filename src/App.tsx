@@ -2,12 +2,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import MainLayout from './layouts/MainLayout'
 import HomePage from './components/HomePage'
-import ProductList from './components/ProductList'
 import Profile from './components/Profile'
 import ContactUs from './components/ContactUs'
 import Login from './components/Login'
 import CartList from './components/CartList'
 import ProductLayout from './layouts/ProducLayout'
+import Signup from './components/Signup'
 
 
 function App() {
@@ -36,6 +36,10 @@ function App() {
         {
           path: 'login',
           element: <Login/>
+        },
+        {
+          path: 'signup',
+          element: <Signup/>
         },
         {
           path: 'cart',

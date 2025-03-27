@@ -1,10 +1,10 @@
 import { motion } from "motion/react";
 import Button from "../UI/Button";
 import Input from "../UI/Input";
-import loginImage from "../assets/other/login.png";
+import loginImage from "../assets/other/signup.png";
 import { Link } from "react-router-dom";
 
-export default function Login() {
+export default function Signup() {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -20,28 +20,17 @@ export default function Login() {
       <div className="flex-grow flex justify-center items-center p-5">
         <motion.div 
              initial={{
-                rotate:10,
-                x:200,
-                opacity:0
-            }}
-            animate={{
-                rotate:0,
-                x:0,
-                opacity:1
-            }}
-            className="hidden w-1/3 md:flex items-end justify-center">
-          <img src={loginImage} alt="Login" className="w-full h-full" />
-        </motion.div>
-        <motion.div
-             initial={{
-                x : -100
+                x : 100
             }}
             animate={{
                 x:0
             }}
-            className="md:w-1/3 w-full md:h-[55%] flex flex-col justify-between rounded-md border-2 overflow-hidden">
+            exit={{
+                x:100
+            }}
+            className="md:w-1/3 w-full md:h-fit flex flex-col justify-between rounded-md border-2 overflow-hidden">
           <div className="bg-secondary p-4 text-center font-bold text-3xl text-primary font-serif shadow-xl">
-            Login
+            Signup
           </div>
           <div className="p-3 w-full h-full flex flex-col gap-2 py-5 inner-shadow">
             <form>
@@ -58,45 +47,27 @@ export default function Login() {
                 name="password"
                 type="password"
               />
+              <Input
+                placeHolder="Enter Comfirm Password"
+                label="Comfirm Password"
+                name="cpassword"
+                type="password"
+              />
+              <Input placeHolder="Your Mobile Number" label="Mobile Number" />
             </form>
-            <div className="p-2">
-              Forget Password?{" "}
-              <span className="underline">
-                <a href="#">Click here</a>
-              </span>
-            </div>
             <div className="flex w-full gap-1 justify-center items-center">
-              <div className="w-1/4 md:w-1/3 h-[1px]">
-                <hr />
+              <div className="text-center">
+                Already have an account?{" "}
+                <span className="underline">
+                  <Link to="../login">Login now</Link>
+                </span>
               </div>
-              Or Login With
-              <div className="w-1/4 md:w-1/3 h-[1px]">
-                <hr />
-              </div>
-            </div>
-            <div className="w-full flex justify-center gap-2">
-              <Button
-                icon="fa-brands fa-google"
-                className="btn-outline py-2 px-4 text-red-500"
-                name="Google"
-              />
-              <Button
-                icon="fa-brands fa-square-facebook"
-                className="btn-outline py-2 px-4 text-primary"
-                name="Google"
-              />
-            </div>
-            <div className="text-center">
-              Don't have an account?{" "}
-              <span className="underline">
-                <Link to="../signup">Register now</Link>
-              </span>
             </div>
           </div>
           <div className="bg-secondary flex justify-end items-center p-3 gap-2 text-center text-primary shadow-2xl">
             <Button
               className="bg-primary border-[1.5px] px-4 py-1 rounded-md text-white"
-              name="submit"
+              name="Signup"
               type="submit"
             />
             <Button
@@ -105,6 +76,20 @@ export default function Login() {
               type="reset"
             />
           </div>
+        </motion.div>
+        <motion.div 
+            initial={{
+                rotate:10,
+                x:-200,
+                opacity:0
+            }}
+            animate={{
+                rotate:0,
+                x:0,
+                opacity:1
+            }}
+            className="hidden w-1/3 md:flex items-end justify-center">
+          <img src={loginImage} alt="Login" className="w-full h-full" />
         </motion.div>
       </div>
     </motion.div>
