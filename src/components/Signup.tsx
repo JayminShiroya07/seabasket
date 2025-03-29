@@ -29,7 +29,7 @@ export default function Signup() {
                 x:100
             }}
             className="md:w-1/3 w-full md:h-fit flex flex-col justify-between rounded-md border-2 overflow-hidden">
-          <div className="bg-secondary p-4 text-center font-bold text-3xl text-primary font-serif shadow-xl">
+          <div className="bg-primary p-4 text-center font-bold text-3xl text-white font-serif shadow-xl">
             Signup
           </div>
           <div className="p-3 w-full h-full flex flex-col gap-2 py-5 inner-shadow">
@@ -64,14 +64,14 @@ export default function Signup() {
               </div>
             </div>
           </div>
-          <div className="bg-secondary flex justify-end items-center p-3 gap-2 text-center text-primary shadow-2xl">
-            <Button
-              className="bg-primary border-[1.5px] px-4 py-1 rounded-md text-white"
+          <div className="bg-primary flex justify-end items-center p-3 gap-2 text-center text-primary shadow-2xl">
+          <Button
+              className="bg-dark-green border-[1.5px] px-4 py-1 rounded-md text-white"
               name="Signup"
               type="submit"
             />
             <Button
-              className="btn-outline border-[1.5px] px-4 py-1 rounded-md text-primary"
+              className="btn-outline border-dark-green bg-white border-[1.5px] px-4 py-1 rounded-md text-primary"
               name="reset"
               type="reset"
             />
