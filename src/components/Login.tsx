@@ -40,7 +40,7 @@ export default function Login() {
                 x:0
             }}
             className="md:w-1/3 w-full md:h-[55%] flex flex-col justify-between rounded-md border-2 overflow-hidden">
-          <div className="bg-secondary p-4 text-center font-bold text-3xl text-primary font-serif shadow-xl">
+          <div className="bg-primary p-4 text-center font-bold text-3xl text-white font-serif shadow-xl">
             Login
           </div>
           <div className="p-3 w-full h-full flex flex-col gap-2 py-5 inner-shadow">
@@ -77,12 +77,12 @@ export default function Login() {
             <div className="w-full flex justify-center gap-2">
               <Button
                 icon="fa-brands fa-google"
-                className="btn-outline py-2 px-4 text-red-500"
+                className="border-red-500 border-[0.5px] rounded-md py-2 px-4 text-red-500"
                 name="Google"
               />
               <Button
                 icon="fa-brands fa-square-facebook"
-                className="btn-outline py-2 px-4 text-primary"
+                className="py-2 px-4 border-blue-500 border-[0.5px] rounded-md text-blue-500"
                 name="Google"
               />
             </div>
@@ -93,14 +93,14 @@ export default function Login() {
               </span>
             </div>
           </div>
-          <div className="bg-secondary flex justify-end items-center p-3 gap-2 text-center text-primary shadow-2xl">
+          <div className="bg-primary flex justify-end items-center p-3 gap-2 text-center text-primary shadow-2xl">
             <Button
-              className="bg-primary border-[1.5px] px-4 py-1 rounded-md text-white"
+              className="bg-dark-green border-[1.5px] px-4 py-1 rounded-md text-white"
               name="submit"
               type="submit"
             />
             <Button
-              className="btn-outline border-[1.5px] px-4 py-1 rounded-md text-primary"
+              className="btn-outline border-dark-green bg-white border-[1.5px] px-4 py-1 rounded-md text-primary"
               name="reset"
               type="reset"
             />
