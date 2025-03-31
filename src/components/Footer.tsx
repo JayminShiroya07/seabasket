@@ -2,7 +2,7 @@ import Button from "../UI/Button";
 
 const Footer = () => {
   return (
-    <section className="bg-primary flex justify-center items-center flex-col pb-3">
+    <section className="bg-dark-green flex justify-center items-center flex-col pb-3">
       <section className="w-full md:h-60 flex flex-col md:flex-row gap-5 p-6 md:px-20 text-white">
         {/* address */}
         <div className="md:w-1/3 w-full h-full border-b-[0.5px] p-3 md:border-none">

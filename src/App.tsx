@@ -5,10 +5,12 @@ import HomePage from './components/HomePage'
 import Profile from './components/userdashboard/Profile'
 import ContactUs from './components/ContactUs'
 import Login from './components/Login'
-import CartList from './components/CartList'
 import ProductLayout from './layouts/ProducLayout'
 import Signup from './components/Signup'
 import ProfileLayout from './layouts/ProfileLayout'
+import Cart from './components/userdashboard/Cart'
+import Orders from './components/userdashboard/Orders'
+import Wishlist from './components/userdashboard/Wishlist'
 
 
 function App() {
@@ -31,9 +33,22 @@ function App() {
           element: <ProfileLayout/>,
           children:[
             {
-              index: true,
+              path: 'profile',
               element:<Profile/>
+            },
+            {
+              path: 'cart',
+              element: <Cart/>
+            },
+            {
+              path:'order',
+              element:<Orders/>
+            },
+            {
+              path:'wishlist',
+              element:<Wishlist/>
             }
+
           ]
         },
         {
@@ -48,10 +63,6 @@ function App() {
           path: 'signup',
           element: <Signup/>
         },
-        {
-          path: 'cart',
-          element: <CartList/>
-        }
       ]
     },
 

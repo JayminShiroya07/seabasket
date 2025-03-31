@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { profileDetails } from "../data/modals/profileDetails";
 import { products } from "../data/products";
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
+import { motion } from "motion/react";
+
+const MotionNavLink = motion(NavLink);
 
 const DETAILS: Array<profileDetails> = [
   {
-    title : "profile",
-    items: []
+    title: "profile",
+    items: [],
   },
   {
     title: "cart",
@@ -22,10 +25,18 @@ const DETAILS: Array<profileDetails> = [
   },
 ];
 
+const ICONS = {
+  profile: "fas fa-user",
+  cart: "fas fa-shopping-cart",
+  order: "fas fa-receipt",
+  wishlist: "fas fa-heart",
+};
+
 export default function ProfileLayout() {
   const [selectedDetails, setSelectedDetails] = useState<profileDetails>(
     DETAILS[0]
   );
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   function listChangeHandler(title: string = "cart") {
     const newDetail = DETAILS.find((detail) => detail.title === title);
@@ -34,38 +45,88 @@ export default function ProfileLayout() {
     }
   }
 
-  // const textCss: string = "p-4 py-5 first-letter:capitalize bg-dark-green text-center text-white font-bold text-xl border-2 border-primary";
-  const textCss: string = "p-4 text-2xl flex items-center justify-center  text-black shadow-lg rounded-lg transition bg-dark-green text-white";
-  const buttonCss: string =
-    "p-4 flex items-center text-2xl justify-center  text-black shadow-lg rounded-lg transition";
-
   return (
     <div className="md:h-[calc(100vh-3.8rem)] flex flex-col md:flex-row gap-3 text-dark-green">
-      <div className="md:w-1/5 card rounded-md h-full">
+      <div className="text-black w-full flex md:hidden p-3">
+        <h1 className="border-2 px-3 py-2 rounded ">
+          <i className="fas fa-bars"></i>
+        </h1>
+      </div>
+      <motion.div
+        className="hidden md:block card rounded-md h-full"
+        animate={{ width: isCollapsed ? 80 : 300 }} 
+        transition={{ duration: 0.3 }}
+      >
         <div className="border-2 h-full flex flex-col">
-          <div className="p-3">
-            <h1 className="font-bold text-xl">Account</h1>
-            <p>Jaymeen Shiroya</p>
+          <div className={`${isCollapsed ? 'justify-center' : 'justify-between'} p-3 border-b-2 flex items-center`}>
+            {!isCollapsed && (
+              <div>
+                <h1 className="font-bold text-xl">Dashboard</h1>
+                <p>Jaymeen Shiroya</p>
+              </div>
+            )}
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="focus:outline-none border-2 px-3 py-2 rounded-md text-dark-green"
+            >
+              {isCollapsed ? (
+                <i className="fas fa-bars"></i>
+              ) : (
+                <i className="fas fa-times"></i>
+              )}
+            </button>
           </div>
-          <ul className="flex flex-col p-3 gap-1 h-full">
+          <motion.ul
+            className="flex flex-col p-3 gap-4 h-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             {DETAILS.map((listItem) => (
-              <li className={selectedDetails.title === listItem.title ? textCss : buttonCss} onClick={() => listChangeHandler(listItem.title)}>{listItem.title}</li>
+              <MotionNavLink
+                to={listItem.title}
+                key={listItem.title}
+                onClick={() => listChangeHandler(listItem.title)}
+                whileHover={{ scale: 1.05 }}
+                className="relative cursor-pointer px-5 py-4 flex items-center justify-center text-center text-2xl text-black shadow-lg rounded-lg transition"
+              >
+                {isCollapsed ? (
+                  <i className={ICONS[listItem.title]}></i>
+                ) : (
+                  <span>{listItem.title}</span>
+                )}
+                {selectedDetails.title === listItem.title && (
+                  <motion.div
+                    className="absolute border-l-7 border-teal top-0 left-0 h-full bg-dark-green rounded-lg z-[-1]"
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 0.2 }}
+                  />
+                )}
+              </MotionNavLink>
             ))}
-          </ul>
+          </motion.ul>
           <div className="w-full self-end p-3">
-            <h1 className="p-4 py-5 first-letter:capitalize bg-red-500 rounded-xl text-center text-white font-bold text-xl border-2 border-primary">
-              <i className="fas fa-sign-out-alt"></i> Logout</h1>
+            <h1 className="p-4 py-5 first-letter:capitalize bg-red-500 rounded-xl text-center text-white font-bold text-xl border-2">
+              {isCollapsed ? (
+                <i className="fas fa-sign-out-alt"></i>
+              ) : (
+                "Sign out"
+              )}
+            </h1>
+          </div>
+        </div>
+      </motion.div>
+      <div className="flex-1 p-2">
+        <div className="h-full w-full border-2 rounded-xl">
+          <h1 className="bg-dark-green text-white h-1/15 p-4 text-center text-2xl font-medium shadow-xl rounded-t-xl">
+            {selectedDetails.title}
+          </h1>
+          <div className="w-full min-h-14/15 rounded-b-xl border-t-4 border-primary">
+            <Outlet />
           </div>
         </div>
       </div>
-        <div className="w-4/5 p-2">
-            <div className="h-full w-full border-2 rounded-xl">
-              <h1 className="bg-dark-green text-white h-1/15 p-4 text-center text-2xl font-medium font-stretch-100% shadow-xl rounded-t-xl">{selectedDetails.title}</h1>
-              <div className="w-full min-h-14/15 rounded-b-xl border-t-4 border-primary p-3">
-                <Outlet/>
-              </div>
-            </div>
-        </div>
     </div>
   );
 }
