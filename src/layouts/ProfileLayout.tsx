@@ -8,28 +8,28 @@ const MotionNavLink = motion(NavLink);
 
 const DETAILS: Array<profileDetails> = [
   {
-    title: "profile",
+    title: "Profile",
     items: [],
   },
   {
-    title: "cart",
+    title: "Cart",
     items: products.slice(0, 4),
   },
   {
-    title: "order",
+    title: "Order",
     items: products.slice(3, 9),
   },
   {
-    title: "wishlist",
+    title: "Wishlist",
     items: products.slice(2, 6),
   },
 ];
 
 const ICONS = {
-  profile: "fas fa-user",
-  cart: "fas fa-shopping-cart",
-  order: "fas fa-receipt",
-  wishlist: "fas fa-heart",
+  Profile: "fas fa-user",
+  Cart: "fas fa-shopping-cart",
+  Order: "fas fa-receipt",
+  Wishlist: "fas fa-heart",
 };
 
 export default function ProfileLayout() {
@@ -130,7 +130,7 @@ export default function ProfileLayout() {
           <h1 className="bg-dark-green flex justify-center items-center text-white p-4 text-center md:text-2xl font-medium shadow-xl">
             {selectedDetails.title}
           </h1>
-          <div className="w-full flex-1 p-4 border-t-4 border-primary overflow-auto">
+          <div className="w-full flex-1 p-4 border-t-4 border-primary overflow-auto  [&::-webkit-scrollbar]:hidden">
             <Outlet />
           </div>
         </div>

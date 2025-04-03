@@ -39,25 +39,28 @@ const OrderItems: React.FC<{ orderDetails: order }> = ({ orderDetails }) => {
 
   return (
     <div className="w-full h-fit shadow-md rounded-md border-2 border-black">
-      <div className="text-black font-medium p-4 flex items-start md:justify-between md:items-center">
-        <div className="flex flex-col md:flex-row w-2/3 items-start justify-between item-center">
-          <h1>Order Id : {orderDetails.id}</h1>
-          <div className="flex gap-2 items-center  flex-col">
+      <div className="text-black font-medium p-4 flex items-start md:justify-between md:items-center h-fit">
+        <div className="flex flex-col md:flex-row w-6/7 items-start justify-center item-center">
+          {/* order id */}
+          <h1 className="w-full md:w-2/4 p-2 flex flex-wrap">Order Id : {orderDetails.id}</h1>
+
+          {/* status indicator */}
+          <div className="w-full md:w-1/4">
             <div className=" p-2 flex gap-2 items-center">
               <div
                 className={`w-4 h-4 rounded-full flex items-center justify-center ${
-                  orderDetails.status === "completed"
+                  orderDetails.status === "Completed"
                     ? "bg-green-200"
-                    : orderDetails.status === "pending"
+                    : orderDetails.status === "Pending"
                     ? "bg-yellow-300"
                     : "bg-red-300"
                 }`}
               >
                 <div
                   className={`w-1/2 h-1/2 rounded-full ${
-                    orderDetails.status === "completed"
+                    orderDetails.status === "Completed"
                       ? "bg-green-700"
-                      : orderDetails.status === "pending"
+                      : orderDetails.status === "Pending"
                       ? "bg-yellow-700"
                       : "bg-red-700"
                   }`}
@@ -66,12 +69,14 @@ const OrderItems: React.FC<{ orderDetails: order }> = ({ orderDetails }) => {
               {orderDetails.status}
             </div>
           </div>
-          <div className="flex gap-6 items-center p-2">
+
+          {/* Date */}
+          <div className="w-full flex gap-6 md:w-1/4 items-center p-2">
             <h1>{formattedDate}</h1>
           </div>
         </div>
 
-        <div className="w-1/4 h-full flex justify-end items-center">
+        <div className="w-1/7 h-full flex justify-end items-center">
           <div
             className="border-[.3px] text-[15px] font-bold flex items-center justify-center w-8 h-8 rounded-full"
             onClick={onOpenHandler}
@@ -109,30 +114,33 @@ const OrderItems: React.FC<{ orderDetails: order }> = ({ orderDetails }) => {
               <div className="w-full md:w-1/3">
                 {orderDetails.item.map((itm) => (
                   <motion.div
-                  key={itm.title}
-                  className={`${
-                    itm.id === selectedProduct.id ? "bg-gray-300" : "hover:bg-gray-800"
-                  } border-b-[1px] cursor-pointer border-2 rounded-md mb-2 border-black text-gray-900 font-medium shadow-md p-4 flex flex-col md:flex-row justify-between`}
-                  onClick={() => onItemSelect(itm.id)}
-                  animate={{
-                    backgroundColor: itm.id === selectedProduct.id ? "#D1D5DB" : "#FFFFFF",
-                  }}
-                  whileHover={{
-                    scale: 1.059
-                  }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                    key={itm.title}
+                    className={`${
+                      itm.id === selectedProduct.id
+                        ? "bg-gray-300"
+                        : "hover:bg-gray-800"
+                    } border-b-[1px] cursor-pointer border-2 rounded-md mb-2 border-black text-gray-900 font-medium shadow-md p-4 flex flex-col md:flex-row justify-between`}
+                    onClick={() => onItemSelect(itm.id)}
+                    animate={{
+                      backgroundColor:
+                        itm.id === selectedProduct.id ? "#D1D5DB" : "#FFFFFF",
+                    }}
+                    whileHover={{
+                      scale: 1.059,
+                    }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
-                  <ProductItem>
-                    <ProductItem.Title className="text-black">
-                    <span className="text-lg md:text-xl font-bold">
-                      {itm.title}{" "}
-                    </span>
-                    <span> x 2</span>
-                    </ProductItem.Title>
-                    <ProductItem.Price className="text-sm md:text-base">
-                    {itm.price}
-                    </ProductItem.Price>
-                  </ProductItem>
+                    <ProductItem>
+                      <ProductItem.Title className="text-black">
+                        <span className="text-lg md:text-xl font-bold">
+                          {itm.title}{" "}
+                        </span>
+                        <span> x 2</span>
+                      </ProductItem.Title>
+                      <ProductItem.Price className="text-sm md:text-base">
+                        {itm.price}
+                      </ProductItem.Price>
+                    </ProductItem>
                   </motion.div>
                 ))}
               </div>
@@ -158,14 +166,23 @@ const OrderItems: React.FC<{ orderDetails: order }> = ({ orderDetails }) => {
                 </ProductItem>
               </div>
               <div className="w-full md:w-1/3 p-3">
-                <div className="mb-2 text-xl md:text-base">
-                  <b className="text-xl">Delivery Date</b>: <span className="text-xl font-medium text-gray-700">{formattedDeliveryDate}</span>
+                <div className="mb-2">
+                  <b className="md:text-xl text-md">Delivery Date</b>:{" "}
+                  <span className="md:text-xl text-sm text-gray-700">
+                    {formattedDeliveryDate}
+                  </span>
                 </div>
                 <div className="mb-2 text-md md:text-base">
-                  <b className="text-xl">Address</b>: <span className="text-xl font-medium text-gray-700">93, raj mandir soc. mansarovar road</span>
+                  <b className="md:text-xl text-md">Address</b>:{" "}
+                  <span className="md:text-xl text-sm text-gray-700">
+                    93, raj mandir soc. mansarovar road
+                  </span>
                 </div>
                 <div className="text-sm md:text-base">
-                  <b className="text-xl">Total</b>: <span className="text-xl font-medium text-gray-700">1,200</span>
+                  <b className="md:text-xl text-md">Total</b>:{" "}
+                  <span className="md:text-xl text-sm text-gray-700">
+                    1,200
+                  </span>
                 </div>
               </div>
             </motion.div>

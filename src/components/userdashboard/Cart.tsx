@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Product, products as initialProducts } from "../../data/products";
-import ProductItem from "../ProductItem";
+import CartItem from "./CartItems";
+import Button from "../../UI/Button";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
@@ -11,72 +12,38 @@ export default function Cart() {
 
   return (
     <div className="h-full p-4">
-      {/* For mobile: stacked layout; for md and above: side-by-side */}
-      <div className="flex flex-col md:flex-row gap-4 p-1 h-full">
-        <main className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-auto [&::-webkit-scrollbar]:hidden    ">
-          {cartItems.map((item, index) => (
-            <ProductItem
-              key={index}
-              className="border-2 border-black rounded-md"
-            >
-              <div className="w-full bg-dark-green text-center p-2 rounded-t ">
-                <ProductItem.Title className="text-black">
-                  {item.title}
-                </ProductItem.Title>
-              </div>
-              <div className="w-full flex flex-col sm:flex-row gap-2 overflow-hidden">
-                <div className="sm:w-1/3">
-                  <ProductItem.Image
-                    className="w-full h-auto"
-                    image={item.image}
-                  />
-                </div>
-                <div className="sm:w-2/3 flex justify-between p-2 flex-col">
-                  <ProductItem.Price>{item.price}</ProductItem.Price>
-                  <div className="py-2 flex gap-2">
-                    <ProductItem.Button
-                      icon="fas fa-plus"
-                      className="text-black w-1/3 p-2 border-black border-2 rounded "
-                    ></ProductItem.Button>
-                    <div className="bg-transparent text-center w-2/3 p-1 outline-none">
-                      3
-                    </div>
-                    <ProductItem.Button
-                      icon="fas fa-minus"
-                      className="text-black w-1/3 p-2 border-black border-2 rounded "
-                    ></ProductItem.Button>
-                    <ProductItem.Button
-                      icon="fas fa-trash"
-                      className="text-red-600 w-1/3 p-2 border-red-500 border-2 rounded "
-                    ></ProductItem.Button>
-                  </div>
-                </div>
-              </div>
-            </ProductItem>
+      {/* Responsive layout */}
+      <div className="flex flex-col md:flex-row gap-4 p-1 h-full flex-wrap">
+        {/* Main content: cart items */}
+        <main className="flex-1 grid grid-cols-1 gap-4 max-h-full md:px-6 md:py-12 overflow-scroll [&::-webkit-scrollbar]:hidden">
+          {cartItems.map((item) => (
+            <CartItem product={item} key={item.id} />
           ))}
         </main>
-        <aside className="bg-amber-200 p-4 rounded-md shadow-2xl md:w-1/3 flex justify-between flex-col gap-3">
+        {/* Sidebar: cart details */}
+        <aside className="border-2 border-black p-4 rounded-md shadow-2xl md:w-1/3 flex flex-col gap-3">
           <h2 className="text-lg font-bold mb-2 border-b-2">Cart Details</h2>
-          <div className="w-full h-full">
-            <table className="w-full">
-               
+          <div className="w-full flex-1">
+            <table className="w-full text-sm sm:text-base">
+              <tbody>
                 <tr>
-                    <th className="text-start">Total Product Price</th>
-                    <td className="text-end">+ 1,200</td>
+                  <th className="text-start">Total Product Price</th>
+                  <td className="text-end">+ 1,200</td>
                 </tr>
                 <tr>
-                    <th className="text-start">Total Discount</th>
-                    <td className="text-end">- 1,200</td>
+                  <th className="text-start">Total Discount</th>
+                  <td className="text-end">- 1,200</td>
                 </tr>
-                <h1 className="bg-teal">
-
-                </h1>
+              </tbody>
             </table>
           </div>
-          <h2 className="text-lg font-bold mb-2 border-t-2 py-3 flex justify-between">
-            <p>Order Total</p>
-            <h1>1,200</h1>
+          <h2 className="text-lg font-bold border-t-2 pt-3 flex justify-between">
+            <span>Order Total</span>
+            <span>1,200</span>
           </h2>
+          <div className="w-full p-2 flex justify-end">
+              <Button icon="fa fas-cart" name="Proceed to Buy" className="bg-red-500 text-white px-4 py-2 rounded-md"></Button>
+          </div>
         </aside>
       </div>
     </div>
