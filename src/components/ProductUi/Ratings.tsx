@@ -3,6 +3,7 @@ import React from "react";
 interface ChildNode {
     rating: number;
     children?: React.ReactNode;
+    className? : string
 }
 
 const Ratings : React.FC<ChildNode> = (props) => {
@@ -15,7 +16,7 @@ const Ratings : React.FC<ChildNode> = (props) => {
                 const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
 
                 return (
-                    <>
+                    <div className={`${props.className} flex gap-1`}>
                         {Array.from({ length: fullStars }, (_, i) => (
                             <span key={`full-${i}`} style={{ color: "gold", fontSize: "1.2em" }}>
                                 <i className="fas fa-star"></i>
@@ -31,7 +32,7 @@ const Ratings : React.FC<ChildNode> = (props) => {
                                 <i className="far fa-star"></i>
                             </span>
                         ))}
-                    </>
+                    </div>
                 );
             })()}
         </>

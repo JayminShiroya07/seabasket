@@ -1,6 +1,6 @@
 import { Product } from "../products";
 
 export interface profileDetails {
-    title: 'cart' | 'order' | 'wishlist' | 'profile',
+    title: 'Cart' | 'Order' | 'Wishlist' | 'Profile',
     items: Product[],
 }

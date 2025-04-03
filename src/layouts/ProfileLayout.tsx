@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { profileDetails } from "../data/modals/profileDetails";
 import { products } from "../data/products";
 import { NavLink, Outlet } from "react-router-dom";
@@ -8,35 +8,44 @@ const MotionNavLink = motion(NavLink);
 
 const DETAILS: Array<profileDetails> = [
   {
-    title: "profile",
+    title: "Profile",
     items: [],
   },
   {
-    title: "cart",
+    title: "Cart",
     items: products.slice(0, 4),
   },
   {
-    title: "order",
+    title: "Order",
     items: products.slice(3, 9),
   },
   {
-    title: "wishlist",
+    title: "Wishlist",
     items: products.slice(2, 6),
   },
 ];
 
 const ICONS = {
-  profile: "fas fa-user",
-  cart: "fas fa-shopping-cart",
-  order: "fas fa-receipt",
-  wishlist: "fas fa-heart",
+  Profile: "fas fa-user",
+  Cart: "fas fa-shopping-cart",
+  Order: "fas fa-receipt",
+  Wishlist: "fas fa-heart",
 };
 
 export default function ProfileLayout() {
-  const [selectedDetails, setSelectedDetails] = useState<profileDetails>(
-    DETAILS[0]
-  );
+  const [selectedDetails, setSelectedDetails] = useState<profileDetails>(DETAILS[0]);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Determine screen size to adjust layout and animations.
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   function listChangeHandler(title: string = "cart") {
     const newDetail = DETAILS.find((detail) => detail.title === title);
@@ -46,19 +55,18 @@ export default function ProfileLayout() {
   }
 
   return (
-    <div className="md:h-[calc(100vh-3.8rem)] flex flex-col md:flex-row gap-3 text-dark-green">
-      <div className="text-black w-full flex md:hidden p-3">
-        <h1 className="border-2 px-3 py-2 rounded ">
-          <i className="fas fa-bars"></i>
-        </h1>
-      </div>
+    // Stack vertically on mobile, side-by-side on md+
+    <div className="flex flex-col md:flex-row gap-3 h-[calc(100vh-3.5rem)] md:h-[calc(100vh-3.78rem)]">
       <motion.div
-        className="hidden md:block card rounded-md h-full"
-        animate={{ width: isCollapsed ? 80 : 300 }} 
+        className="card rounded-md"
+        // On mobile always full width; on desktop animate width when collapsed.
+        animate={{ width: isMobile ? "100%" : isCollapsed ? 80 : 300 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="border-2 h-full flex flex-col">
-          <div className={`${isCollapsed ? 'justify-center' : 'justify-between'} p-3 border-b-2 flex items-center`}>
+        <div className="border-r-0 md:border-r-2 h-full flex flex-col">
+          <div
+            className={`flex ${isCollapsed ? "justify-center" : "md:justify-between"} p-3 md:flex items-center`}
+          >
             {!isCollapsed && (
               <div>
                 <h1 className="font-bold text-xl">Dashboard</h1>
@@ -77,7 +85,7 @@ export default function ProfileLayout() {
             </button>
           </div>
           <motion.ul
-            className="flex flex-col p-3 gap-4 h-full"
+            className="flex flex-row md:flex-col p-3 gap-4 h-full overflow-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
@@ -107,7 +115,7 @@ export default function ProfileLayout() {
             ))}
           </motion.ul>
           <div className="w-full self-end p-3">
-            <h1 className="p-4 py-5 first-letter:capitalize bg-red-500 rounded-xl text-center text-white font-bold text-xl border-2">
+            <h1 className="p-4 py-4 cursor-pointer capitalize bg-red-500 rounded-xl text-center text-white font-bold text-xl border-2">
               {isCollapsed ? (
                 <i className="fas fa-sign-out-alt"></i>
               ) : (
@@ -118,11 +126,11 @@ export default function ProfileLayout() {
         </div>
       </motion.div>
       <div className="flex-1 p-2">
-        <div className="h-full w-full border-2 rounded-xl">
-          <h1 className="bg-dark-green text-white h-1/15 p-4 text-center text-2xl font-medium shadow-xl rounded-t-xl">
+        <div className="h-full w-full border-2 rounded-xl overflow-hidden flex flex-col">
+          <h1 className="bg-dark-green flex justify-center items-center text-white p-4 text-center md:text-2xl font-medium shadow-xl">
             {selectedDetails.title}
           </h1>
-          <div className="w-full min-h-14/15 rounded-b-xl border-t-4 border-primary">
+          <div className="w-full flex-1 p-4 border-t-4 overflow-auto  [&::-webkit-scrollbar]:hidden">
             <Outlet />
           </div>
         </div>
