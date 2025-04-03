@@ -11,25 +11,25 @@ export default function ProductList() {
 
   return (
     <div className="overflow-auto">
-      <div className="flex w-full flex-wrap p-2 justify-evenly">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
         {products.map((product) => (
           <ProductItem
             key={product.id}
-            className="w-full sm:w-1/2 md:w-1/3 p-2 flex overflow-hidden bg-transparent transition-shadow"
+            className="flex flex-col bg-transparent transition-shadow"
           >
-            <div className="border hover:shadow-xl bg-transparent rounded-md md:flex gap-2 w-full overflow-hidden shadow-gray-200">
+            <div className="border hover:shadow-xl bg-transparent rounded-md overflow-hidden shadow-gray-200">
               <ProductItem.Image
                 image={product.image}
-                className=" w-full h-60 md:h-auto md:w-auto rounded-r-md rounded-bl-none cursor-pointer"
+                className="w-full h-58 object-cover cursor-pointer"
               />
-              <div className="flex flex-col justify-between p-4 w-full">
+              <div className="flex flex-col justify-between p-4">
                 {/* Title */}
                 <ProductItem.Title className="text-xl font-bold text-gray-900">
                   {product.title}
                 </ProductItem.Title>
 
                 {/* Description, Price, and Rating */}
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 mt-2">
                   <ProductItem.Description className="text-gray-600 text-sm">
                     {product.description}
                   </ProductItem.Description>

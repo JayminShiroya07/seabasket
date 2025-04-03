@@ -56,7 +56,7 @@ export default function ProfileLayout() {
 
   return (
     // Stack vertically on mobile, side-by-side on md+
-    <div className="flex flex-col md:flex-row gap-3 h-[calc(100vh-3.5rem)] md:h-[calc(100vh-3.78rem)] text-dark-green">
+    <div className="flex flex-col md:flex-row gap-3 h-[calc(100vh-3.5rem)] md:h-[calc(100vh-3.78rem)]">
       <motion.div
         className="card rounded-md"
         // On mobile always full width; on desktop animate width when collapsed.
@@ -130,7 +130,7 @@ export default function ProfileLayout() {
           <h1 className="bg-dark-green flex justify-center items-center text-white p-4 text-center md:text-2xl font-medium shadow-xl">
             {selectedDetails.title}
           </h1>
-          <div className="w-full flex-1 p-4 border-t-4 border-primary overflow-auto  [&::-webkit-scrollbar]:hidden">
+          <div className="w-full flex-1 p-4 border-t-4 overflow-auto  [&::-webkit-scrollbar]:hidden">
             <Outlet />
           </div>
         </div>
