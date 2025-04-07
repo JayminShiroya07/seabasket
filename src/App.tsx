@@ -11,6 +11,7 @@ import ProfileLayout from './layouts/ProfileLayout'
 import Cart from './components/userdashboard/Cart'
 import Orders from './components/userdashboard/Orders'
 import Wishlist from './components/userdashboard/Wishlist'
+import Product from './components/Product'
 
 
 function App() {
@@ -63,6 +64,10 @@ function App() {
           path: 'signup',
           element: <Signup/>
         },
+        {
+          path : 'products/:id',
+          element: <Product/>
+        }
       ]
     },
 

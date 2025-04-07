@@ -25,7 +25,7 @@ export default function Wishlist() {
                         </div>
                         <ProductItem className="w-full h-full flex flex-col overflow-hidden border-[0.5px] rounded-sm">
                             <div className="w-full h-fit overflow-hidden border-b-1">
-                                <ProductItem.Image image={item.image} className="w-full" />
+                                <ProductItem.Image image={item.images[0]} className="w-full" />
                             </div>
                             <div className="w-full p-2 flex items-center flex-col gap-1">
                                 <ProductItem.Title className="font-bold">{item.title}</ProductItem.Title>

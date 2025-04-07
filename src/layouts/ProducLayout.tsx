@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ProductList from "../components/ProductList";
 import FilterSidenav from "../UI/FilterSidenav";
 import Searchbar from "../UI/Searchbar";
+import { products } from "../data/products";
 
 export default function ProductLayout() {
   const [isVisible, setIsVisible] = useState(false);
@@ -38,7 +39,11 @@ export default function ProductLayout() {
           </AnimatePresence>
           <div 
             className={`${isVisible ? "md:w-4/5" : "w-full"} [&::-webkit-scrollbar]:hidden overflow-x-scroll max-h-[calc(100vh-7.9rem)]`}>
-            <ProductList />
+              <div className="overflow-auto">
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
+                  <ProductList products={products} />
+                </div>
+              </div>
           </div>
         </div>
       </div>

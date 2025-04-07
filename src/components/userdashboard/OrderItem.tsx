@@ -148,7 +148,7 @@ const OrderItems: React.FC<{ orderDetails: order }> = ({ orderDetails }) => {
                 <ProductItem className="flex flex-col md:flex-row items-center gap-4 p-2">
                   <div className="flex justify-center items-center w-full md:w-auto">
                     <ProductItem.Image
-                      image={selectedProduct.image}
+                      image={selectedProduct.images[0]}
                       className="w-full md:w-72 h-72 object-cover rounded-md mb-4 md:mb-0"
                     />
                   </div>

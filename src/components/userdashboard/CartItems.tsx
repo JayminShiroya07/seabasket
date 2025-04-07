@@ -15,7 +15,7 @@ const CartItem: React.FC<{ product: Product }> = ({ product }) => {
                 </div>
                 <div className="w-full flex flex-col max md:flex-row gap-4 overflow-hidden">
                     <div className="md:w-1/3 w-full">
-                        <ProductItem.Image className="w-full h-auto object-cover" image={product.image} />
+                        <ProductItem.Image className="w-full h-auto object-cover" image={product.images[0]} />
                     </div>
                     <div className="md:w-2/3 w-full flex flex-col justify-evenly p-4 text-black">
                         <ProductItem.Price className="text-lg font-bold">{product.price}</ProductItem.Price>
