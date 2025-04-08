@@ -27,10 +27,10 @@ export default function Wishlist() {
                             <div className="w-full h-fit overflow-hidden border-b-1">
                                 <ProductItem.Image image={item.images[0]} className="w-full" />
                             </div>
-                            <div className="w-full p-2 flex items-center flex-col gap-1">
-                                <ProductItem.Title className="font-bold">{item.title}</ProductItem.Title>
-                                <ProductItem.Price className="font-bold">{item.price}</ProductItem.Price>
-                                <ProductItem.Button className="w-full p-3 border-2 rounded-md" type="buy">Buy now</ProductItem.Button>
+                            <div className="w-full p-2 flex items-center flex-col gap-1 sm:gap-2 md:gap-3">
+                                <ProductItem.Title className="font-bold text-sm sm:text-base md:text-lg">{item.title}</ProductItem.Title>
+                                <ProductItem.Price className="font-bold text-sm sm:text-base md:text-lg">{item.price}</ProductItem.Price>
+                                <ProductItem.Button className="w-full p-2 sm:p-3 md:p-4 border-2 rounded-md" type="buy">Buy now</ProductItem.Button>
                             </div>
                         </ProductItem>
                     </div>

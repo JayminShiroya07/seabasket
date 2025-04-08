@@ -1,6 +1,6 @@
 import React from "react";
 
-interface ChildNode {
+type ChildNode = {
     children?: React.ReactNode;
     className?: string;
 }
