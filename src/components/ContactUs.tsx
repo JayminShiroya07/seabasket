@@ -6,7 +6,7 @@ export default function ContactUs() {
     return (
         <div className="md:h-[calc(100vh-21rem)] flex justify-center items-start md:items-center p-5">
             <div className="w-full max-w-2xl border-2 bg-white rounded-xl overflow-hidden shadow-lg">
-                <header className="bg-secondary text-center shadow-md text-primary py-4">
+                <header className="bg-dark-green text-center shadow-md text-primary py-4">
                     <h1 className="font-bold text-3xl">Contact Us</h1>
                 </header>
                 <main className="p-6">
