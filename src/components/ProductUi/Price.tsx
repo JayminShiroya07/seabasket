@@ -1,9 +1,9 @@
 import React from "react";
 
 interface PriceProps {
-  children: number | string | String; // Ensure children is a number or string that can be converted to a number
+  children: number | string | String; 
   className?: string;
-  discount?: number; // Discount is optional
+  discount?: number; 
 }
 
 const Price: React.FC<PriceProps> = ({ children, className, discount = 0 }) => {

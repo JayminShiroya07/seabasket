@@ -34,13 +34,13 @@ const Footer = () => {
             <input
               type="text"
               name="subscribe"
-              className=" w-2/3 px-4 py-2 bg-white text-black font-medium rounded-l-md"
+              className=" w-2/3 p-3 md:px-4 md:py-2 bg-white text-black font-medium rounded-l-md"
               placeholder="You Email"
             />
             <Button
               type="button"
               name="subscribe"
-              className="btn-secondary px-4 py-2 text-black rounded-l-none"
+              className="bg-teal rounded-r-md p-3 md:px-4 md:py-2 text-black"
             />
           </div>
         </div>

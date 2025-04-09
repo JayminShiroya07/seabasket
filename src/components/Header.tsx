@@ -13,13 +13,12 @@ const navItems = [
 export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const linkActive =
-    "hover:text-dark-green hover:bg-primary bg-primary een text-2xl text-black font-semibold py-1 px-6 rounded shadow-xl btn-primary transition-all duration-300 ease-in-out hover:scale-105";
+    "hover:text-dark-green hover:bg-teal bg-primary een text-2xl text-black font-semibold py-1 px-6 rounded shadow-xl btn-primary transition-all duration-300 ease-in-out hover:scale-105";
   const unActive =
-    "hover:bg-teal text-secondary rounded text-2xl py-1 px-6 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg";
+    "hover:bg-teal bg-teal text-secondary rounded text-2xl py-1 px-6 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg";
 
   return (
     <>
-      {/* Desktop header (visible on large screens) */}
       <header className="bg-dark-green text-white hidden lg:flex justify-between gap-1 items-center px-14 w-full fixed top-0 z-50 shadow-2xl">
         <NavLink to="" className="flex items-center cursor-pointer">
           <img
@@ -41,12 +40,11 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center space-x-4">
-          {/* <NavLink to='cart' className="relative rounded cursor-pointer text-2xl py-1 px-3 bg-primary" > */}
           <NavLink
-            to="cart"
+            to="my/Cart"
             className={({ isActive }) =>
               `relative rounded cursor-pointer text-2xl py-1 px-3 ${
-                isActive ? "bg-primary text-black bg-secondary " : "bg-none"
+                isActive ? "bg-primary text-white bg-secondary " : "bg-none"
               }`
             }
           >
@@ -64,7 +62,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile/Tablet header (visible on screens smaller than lg) */}
       <div className="lg:hidden">
         <header className="fixed top-0 left-0 right-0 z-50 bg-dark-green text-white p-4 flex justify-between items-center">
           <NavLink to="" className="flex items-center cursor-pointer">
@@ -77,9 +74,9 @@ export default function Header() {
           </NavLink>
           <div className="flex items-center space-x-4">
             <NavLink
-              to="cart"
+              to="my/Cart"
               className={({ isActive }) =>
-                `relative rounded cursor-pointer text-2xl py-1 px-3 text-black ${
+                `relative rounded cursor-pointer text-2xl py-1 px-3 text-white ${
                   isActive ? "bg-dark-green text-secondary " : "bg-none"
                 }`
               }
@@ -98,7 +95,6 @@ export default function Header() {
           </div>
         </header>
 
-        {/* Animated mobile sidebar */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: sidebarOpen ? 1 : 0 }}

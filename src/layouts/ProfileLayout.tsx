@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { profileDetails } from "../data/modals/profileDetails";
 import { products } from "../data/products";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 
 const MotionNavLink = motion(NavLink);
@@ -38,7 +38,7 @@ export default function ProfileLayout() {
   const [isMobile, setIsMobile] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Determine screen size to adjust layout and animations.
+  
   useEffect(() => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -52,7 +52,7 @@ export default function ProfileLayout() {
     const newDetail = DETAILS.find((detail) => detail.title === title);
     if (newDetail) {
       setSelectedDetails(newDetail);
-      setIsDropdownOpen(false); // Close dropdown after selection
+      setIsDropdownOpen(false);
     }
   }
 
