@@ -3,6 +3,7 @@ import { useState } from "react";
 import { order } from "../../data/modals/order";
 import ProductItem from "../ProductItem";
 import { Product } from "../../data/products";
+import OrderStatus from "./OrderStatus";
 
 const OrderItems: React.FC<{ orderDetails: order }> = ({ orderDetails }) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -42,27 +43,33 @@ const OrderItems: React.FC<{ orderDetails: order }> = ({ orderDetails }) => {
       <div className="text-black font-medium p-4 flex items-start md:justify-between md:items-center h-fit">
         <div className="flex flex-col md:flex-row w-6/7 items-start justify-center item-center">
           {/* order id */}
-          <h1 className="w-full md:w-2/4 p-2 flex flex-wrap">Order Id : {orderDetails.id}</h1>
+          <h1 className="w-full md:w-2/4 p-2 flex flex-wrap">
+            Order Id : {orderDetails.id}
+          </h1>
 
           {/* status indicator */}
           <div className="w-full md:w-1/4">
             <div className=" p-2 flex gap-2 items-center">
-              <div
+                <div
                 className={`w-4 h-4 rounded-full flex items-center justify-center ${
-                  orderDetails.status === "Completed"
-                    ? "bg-green-200"
-                    : orderDetails.status === "Pending"
-                    ? "bg-yellow-300"
-                    : "bg-red-300"
+                  orderDetails.status === "delivered"
+                  ? "bg-green-200"
+                  : orderDetails.status === "pending"
+                  ? "bg-yellow-300"
+                  : orderDetails.status === "shipped"
+                  ? "bg-blue-300"
+                  : "bg-red-300"
                 }`}
-              >
+                >
                 <div
                   className={`w-1/2 h-1/2 rounded-full ${
-                    orderDetails.status === "Completed"
-                      ? "bg-green-700"
-                      : orderDetails.status === "Pending"
-                      ? "bg-yellow-700"
-                      : "bg-red-700"
+                  orderDetails.status === "delivered"
+                    ? "bg-green-700"
+                    : orderDetails.status === "pending"
+                    ? "bg-yellow-700"
+                    : orderDetails.status === "shipped"
+                    ? "bg-blue-700"
+                    : "bg-red-700"
                   }`}
                 ></div>
               </div>
@@ -144,12 +151,12 @@ const OrderItems: React.FC<{ orderDetails: order }> = ({ orderDetails }) => {
                   </motion.div>
                 ))}
               </div>
-              <div className="w-full md:w-1/3 max-h-fit bg-gray-100 rounded-md shadow-md p-4">
-                <ProductItem className="flex flex-col md:flex-row items-center gap-4 p-2">
-                  <div className="flex justify-center items-center w-full md:w-auto">
+              <div className="w-full md:w-1/3 h-fit rounded-md shadow-md p-4">
+                <ProductItem className="flex flex-col items-center gap-4 p-2">
+                  <div className="w-full h-48 flex items-center justify-center cursor-pointer">
                     <ProductItem.Image
                       image={selectedProduct.images[0]}
-                      className="w-full md:w-72 h-72 object-cover rounded-md mb-4 md:mb-0"
+                      className="object-contain h-full p-4"
                     />
                   </div>
                   <div className="flex flex-col self-start w-full gap-3">
@@ -165,24 +172,36 @@ const OrderItems: React.FC<{ orderDetails: order }> = ({ orderDetails }) => {
                   </div>
                 </ProductItem>
               </div>
-              <div className="w-full md:w-1/3 p-3">
-                <div className="mb-2">
-                  <b className="md:text-xl text-md">Delivery Date</b>:{" "}
-                  <span className="md:text-xl text-sm text-gray-700">
-                    {formattedDeliveryDate}
-                  </span>
+              <div className="flex flex-col w-full lg:w-1/3 gap-3">
+                <div className="w-full  p-4 h-3/4">
+                  <OrderStatus Status={orderDetails.status} />
                 </div>
-                <div className="mb-2 text-md md:text-base">
-                  <b className="md:text-xl text-md">Address</b>:{" "}
-                  <span className="md:text-xl text-sm text-gray-700">
-                    93, raj mandir soc. mansarovar road
-                  </span>
-                </div>
-                <div className="text-sm md:text-base">
-                  <b className="md:text-xl text-md">Total</b>:{" "}
-                  <span className="md:text-xl text-sm text-gray-700">
-                    1,200
-                  </span>
+                <div className="w-full p-3 bg-amber-400 h-1/4">
+                  <div className="mb-2">
+                    <b className="md:text-xl text-md">Delivery Date</b>:{" "}
+                    <span className="md:text-xl text-sm text-gray-700">
+                      {formattedDeliveryDate}
+                    </span>
+                  </div>
+                  <div className="mb-2">
+                    <b className="md:text-xl text-md">Expected Delivery Date</b>
+                    :{" "}
+                    <span className="md:text-xl text-sm text-gray-700">
+                      {formattedDeliveryDate}
+                    </span>
+                  </div>
+                  <div className="mb-2 text-md md:text-base">
+                    <b className="md:text-xl text-md">Address</b>:{" "}
+                    <span className="md:text-xl text-sm text-gray-700">
+                      93, raj mandir soc. mansarovar road
+                    </span>
+                  </div>
+                  <div className="text-sm md:text-base">
+                    <b className="md:text-xl text-md">Total</b>:{" "}
+                    <span className="md:text-xl text-sm text-gray-700">
+                      1,200
+                    </span>
+                  </div>
                 </div>
               </div>
             </motion.div>

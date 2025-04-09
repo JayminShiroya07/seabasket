@@ -5,7 +5,7 @@ export interface order{
     date : Date;
     item : Product[]; 
     total : number;
-    status : "Completed" | "Pending" | "Canceled";
+    status : 'pending' | 'shipped' | 'delivered' | 'cancelled';
     deliveryDate : Date;
 }
 
@@ -15,7 +15,15 @@ export const orders: order[] = [
         date: new Date("2023-01-01"),
         item: [items[0], items[1], items[4], items[5], items[8], items[9]],
         total: 200,
-        status: "Completed",
+        status: "shipped",
+        deliveryDate: new Date("2023-01-05"),
+    },
+    {
+        id: "17576576",
+        date: new Date("2023-01-01"),
+        item: [items[0], items[1], items[4], items[5], items[8], items[9]],
+        total: 200,
+        status: "delivered",
         deliveryDate: new Date("2023-01-05"),
     },
     {
@@ -23,7 +31,7 @@ export const orders: order[] = [
         date: new Date("2023-02-01"),
         item: [items[2], items[3]],
         total: 300,
-        status: "Pending",
+        status: "pending",
         deliveryDate: new Date("2023-02-10"),
     },
     {
@@ -31,7 +39,7 @@ export const orders: order[] = [
         date: new Date("2023-03-01"),
         item: [items[4], items[5]],
         total: 400,
-        status: "Canceled",
+        status: "cancelled",
         deliveryDate: new Date("2023-03-15"),
     },
     {
@@ -39,7 +47,7 @@ export const orders: order[] = [
         date: new Date("2023-04-01"),
         item: [items[6], items[7]],
         total: 500,
-        status: "Completed",
+        status: "shipped",
         deliveryDate: new Date("2023-04-10"),
     },
     {
@@ -47,7 +55,7 @@ export const orders: order[] = [
         date: new Date("2023-05-01"),
         item: [items[8], items[9]],
         total: 600,
-        status: "Pending",
+        status: "pending",
         deliveryDate: new Date("2023-05-20"),
     },
 ];
