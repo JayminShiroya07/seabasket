@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import user from "../../assets/user.png";
-import { add } from "@tensorflow/tfjs";
 
 type profileDetails = {
   name : string,
