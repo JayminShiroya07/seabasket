@@ -69,7 +69,7 @@ export default function HomePage() {
               Unde eos illo provident esse voluptatibus possimus, iure ducimus
               consequatur explicabo quaerat!
             </p>
-            <Button name="Shop Now" className="text-secondary px-4 py-2 btn-primary mt-4">Shop Now</Button>
+            <Button name="Shop Now" className="text-secondary border-[.5px] rounded-md bg-dark-green text-white px-4 py-2 btn-primary mt-4">Shop Now</Button>
           </div>
         </div>
       </section>
