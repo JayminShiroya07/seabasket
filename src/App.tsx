@@ -12,7 +12,8 @@ import Cart from './components/userdashboard/Cart'
 import Orders from './components/userdashboard/Orders'
 import Wishlist from './components/userdashboard/Wishlist'
 import Product from './components/Product'
-
+import { Provider } from 'react-redux' 
+import store from './store/slices'
 
 function App() {
 
@@ -75,7 +76,9 @@ function App() {
 
   return (
     <div >
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </div>
   )
 }
