@@ -7,6 +7,8 @@ interface ChildNode {
   placeHolder?: string;
   name?: string;
   label?: string;
+  ref?: React.Ref<HTMLInputElement>
+  value?:string
 }
 
 const Input: React.FC<ChildNode> = (props) => {
@@ -16,9 +18,12 @@ const Input: React.FC<ChildNode> = (props) => {
         {props.label}
       </label>
       <input
+        ref={props.ref}
         type={props.type}
         className={`${props.className} p-2 border-[0.5px] rounded bg-white placeholder:font-mono placeholder:text-gray-500 text-black font-medium`}
         placeholder={props.placeHolder}
+        value={props.value}
+        name={props.name}
       />
     </div>
   );

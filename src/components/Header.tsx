@@ -2,6 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import logo from "../assets/logo.png";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../store/slices";
+import { logout} from "../store/slices/userSlice";
+
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -16,6 +20,11 @@ export default function Header() {
     "hover:text-dark-green hover:bg-teal bg-primary een text-2xl text-black font-semibold py-1 px-6 rounded shadow-xl btn-primary transition-all duration-300 ease-in-out hover:scale-105";
   const unActive =
     "hover:bg-teal bg-teal text-secondary rounded text-2xl py-1 px-6 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg";
+
+  const isLoggedIn = useSelector((state: any) => state?.user.isLoggedIn);
+
+  const dispatch = useAppDispatch();
+
 
   return (
     <>
@@ -56,8 +65,9 @@ export default function Header() {
           <NavLink
             to="login"
             className={({ isActive }) => (isActive ? linkActive : unActive)}
+            onClick={() => {isLoggedIn ? dispatch(logout()) : ''}}
           >
-            Login
+            {!isLoggedIn ? "Login" : "Logout"}
           </NavLink>
         </div>
       </header>
@@ -132,7 +142,7 @@ export default function Header() {
                 onClick={() => setSidebarOpen(false)}
                 className={({ isActive }) => (isActive ? linkActive : unActive)}
               >
-                Login
+                {!isLoggedIn ? "Logout" : "Logout"}
               </NavLink>
             </nav>
           </motion.div>
