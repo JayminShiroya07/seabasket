@@ -9,6 +9,7 @@ interface ChildNode {
   name?: string;
   icon?: string;
   animation?: boolean;
+  onClick?: () => void;
 }
 
 const Button: React.FC<ChildNode> = (props) => {
@@ -27,6 +28,7 @@ return (
         type={props.type} 
         className={props.className} 
         name={props.name}
+        onClick={props.onClick}
     >
         {props.icon && <i className={props.icon}></i>}&nbsp;
         {props.name}

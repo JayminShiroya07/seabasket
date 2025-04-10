@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { profileDetails } from "../data/modals/profileDetails";
 import { products } from "../data/products";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { motion } from "motion/react";
 
-const MotionNavLink = motion(NavLink);
+const MotionNavLink = motion.create(NavLink);
 
 const DETAILS: Array<profileDetails> = [
   {
