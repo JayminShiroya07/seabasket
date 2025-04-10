@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { signupModal } from "../../data/modals/userModal";
+import { toast } from "react-toastify";
 
 const BASE_URL = "http://127.0.0.1:8000/"
 
@@ -95,6 +96,7 @@ const userSlice = createSlice({
         address: "",
       };
       state.profile = emptyProfile;
+      toast.info("User Logout Successfully..!");
     },
   },
   extraReducers(builder){
@@ -104,12 +106,15 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.isLoggedIn = true,
       localStorage.setItem("AuthToken" ,action.payload.access_token);
+      toast.success("user Login successfully..!");
+
     })
     .addCase(login.rejected,(state,action)=>{
       state.isLoading = false;
       state.isLoggedIn = false,
       state.isLoading = false;
-      console.log(action.error)
+      console.log(action.error);
+      toast.error("Invalid Username and Password");
     })
     .addCase(login.pending,(state)=>{
       state.isLoading = true;

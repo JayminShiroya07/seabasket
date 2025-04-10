@@ -6,6 +6,7 @@ import { useAppDispatch } from "../store/slices";
 import { checkLogin } from "../store/slices/userSlice";
 import Loader from "../UI/Loader";
 import { useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function MainLayout() {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ export default function MainLayout() {
   const location = useLocation();
   return (
     <>
+      <ToastContainer />
       {isLoading && <Loader />}
       <div className="h-auto">
         <nav>
