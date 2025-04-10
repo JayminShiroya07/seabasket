@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import { checkLogin, login } from "../store/slices/userSlice";
 import { useAppDispatch } from "../store/slices";
 import { useSelector } from "react-redux";
-import { isFileLoadingAllowed } from "vite";
 
 export default function Login() {
   const dispatch = useAppDispatch();
