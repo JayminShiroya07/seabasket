@@ -84,7 +84,6 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
     },
     logout(state) {
-      alert("logout");
       state.isLoggedIn = false;
       localStorage.removeItem("AuthToken")
       const emptyProfile = {
@@ -111,17 +110,15 @@ const userSlice = createSlice({
       state.isLoggedIn = false,
       state.isLoading = false;
       console.log(action.error)
-      alert("invalid credentials")
     })
     .addCase(login.pending,(state)=>{
       state.isLoading = true;
     })
 
     //signup thunk
-    .addCase(signup.fulfilled,(state,action)=>{
+    .addCase(signup.fulfilled,(state)=>{
       state.isLoading = false;
       state.isLoggedIn = false;
-      alert(action.payload.message);
     })
     .addCase(signup.rejected,(state)=>{
       state.isLoggedIn = false;
