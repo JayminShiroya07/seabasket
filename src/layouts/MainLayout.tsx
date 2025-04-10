@@ -4,9 +4,14 @@ import Footer from "../components/Footer";
 import { useEffect } from "react";
 import { useAppDispatch } from "../store/slices";
 import { checkLogin } from "../store/slices/userSlice";
+import Loader from "../UI/Loader";
+import { useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function MainLayout() {
   const dispatch = useAppDispatch();
+
+  const { isLoading } = useSelector((state: any) => state?.user);
 
   useEffect(() => {
     dispatch(checkLogin());
@@ -14,20 +19,24 @@ export default function MainLayout() {
 
   const location = useLocation();
   return (
-    <div className="h-auto">
-      <nav>
-        <Header />
-      </nav>
-      <section className="w-full lg:mt-15 mt-19">
-        <Outlet />
-      </section>
-      {location.pathname !== "/login" &&
-      location.pathname !== "/signup" &&
-      !location.pathname.includes("/my") ? (
-        <section>
-          <Footer />
+    <>
+      <ToastContainer />
+      {isLoading && <Loader />}
+      <div className="h-auto">
+        <nav>
+          <Header />
+        </nav>
+        <section className="w-full lg:mt-15 mt-19">
+          <Outlet />
         </section>
-      ) : undefined}
-    </div>
+        {location.pathname !== "/login" &&
+        location.pathname !== "/signup" &&
+        !location.pathname.includes("/my") ? (
+          <section>
+            <Footer />
+          </section>
+        ) : undefined}
+      </div>
+    </>
   );
 }

@@ -14,6 +14,7 @@ import Wishlist from './components/userdashboard/Wishlist'
 import Product from './components/Product'
 import { Provider } from 'react-redux' 
 import store from './store/slices'
+import Loader from './UI/Loader'
 
 function App() {
 

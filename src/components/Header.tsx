@@ -28,7 +28,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-dark-green text-white hidden lg:flex justify-between gap-1 items-center px-14 w-full fixed top-0 z-50 shadow-2xl">
+      <header className="bg-dark-green text-white hidden lg:flex justify-between gap-1 items-center px-14 w-full fixed top-0 z-40 shadow-2xl">
         <NavLink to="" className="flex items-center cursor-pointer">
           <img
             src={logo}
@@ -139,8 +139,9 @@ export default function Header() {
               ))}
               <NavLink
                 to="login"
-                onClick={() => setSidebarOpen(false)}
+                onClick={() => {setSidebarOpen(false); {isLoggedIn ? dispatch(logout()) : ''}}}
                 className={({ isActive }) => (isActive ? linkActive : unActive)}
+                
               >
                 {!isLoggedIn ? "Logout" : "Logout"}
               </NavLink>

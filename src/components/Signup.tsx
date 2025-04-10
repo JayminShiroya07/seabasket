@@ -7,6 +7,7 @@ import React from "react";
 import { useAppDispatch } from "../store/slices";
 import { signup } from "../store/slices/userSlice";
 import { signupModal } from "../data/modals/userModal";
+import { toast } from "react-toastify";
 
 export default function Signup() {
   const dispatch = useAppDispatch();
@@ -30,18 +31,17 @@ export default function Signup() {
       cpassword === "" &&
       phoneNumber === ""
     ) {
-      alert("All fields are requier");
+      toast.error("All fields are requier");
       return;
     }
 
     if (password !== cpassword) {
-      alert("Password and Comfirm password should be same.");
+      toast.error("Password and Comfirm password should be same.");
       return;
     }
 
     if (phoneNumber.length !== 10) {
-      alert(phoneNumber.length);
-      alert("Mobile number should be 10 digit long.");
+      toast.error("Mobile number should be 10 digit long.");
       return;
     }
 
@@ -55,6 +55,7 @@ export default function Signup() {
 
     //register code
     dispatch(signup({userData}));
+    toast.info("User Register Successfully..!");
     navigate("/login")
   }
 
