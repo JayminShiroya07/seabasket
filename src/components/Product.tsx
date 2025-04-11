@@ -26,7 +26,7 @@ export default function Product() {
   useEffect(() => {
     dispatch(selectProduct(productId));
     dispatch(fetchImages({ product_id: productId }));
-  }, [id, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (selectedProduct?.productUrl) {
