@@ -1,8 +1,7 @@
-import { Product } from "../data/products";
 import ProductItem from "./ProductItem";
 import { useNavigate } from "react-router-dom";
 
-const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
+const ProductList: React.FC<{ products: any[] }> = ({ products }) => {
 
   const navigate = useNavigate();
 
@@ -24,7 +23,7 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
               onClick={() => onProductSelect(product.id)}
             >
               <ProductItem.Image
-                image={product.images[0]}
+                image={"http://127.0.0.1:8000"+product.productUrl}
                 className="object-contain h-full p-4"
               />
             </div>
@@ -37,13 +36,8 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                 onClick={() => onProductSelect(product.id)}
               >
                 <ProductItem.Title className="text-lg font-semibold text-gray-800 mb-2">
-                  {product.title}
+                  {product.name}
                 </ProductItem.Title>
-
-                {/* Description */}
-                <ProductItem.Description className="text-sm text-gray-600 mb-4 line-clamp-3">
-                  {product.description}
-                </ProductItem.Description>
 
                 {/* Price and Ratings */}
                 <div className="flex items-center flex-col md:flex-row justify-between mb-4">
