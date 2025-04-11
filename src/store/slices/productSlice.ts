@@ -1,31 +1,125 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Product } from "../../data/products";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+const BASE_URL = "http://127.0.0.1:8000/";
 
 const initialState = {
-    products:<Product[]>[],
-    categories:[],
-    trendingProducts:<Product[]>[],
-    categoryProduct:<Product[]>[],
-    favoriteProducts: <Product[]>[]
-}
+  products: [],
+  categories: [],
+  selectedProduct: {} ,
+  selectedImages: [],
+  trendingProducts: [],
+  categoryProduct: [],
+  favoriteProducts: [],
+  isloading: false,
+  isError: false,
+};
+
+export const fetchProducts = createAsyncThunk(
+  "fetchProducts",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BASE_URL}products/`);
+
+        if (!response.ok) {
+          const error = await response.json();
+          // return error
+          return rejectWithValue(error);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (err) {
+      console.log("login error => ", err);
+    }
+  }
+);
+
+export const selectProduct = createAsyncThunk(
+  "fetchSingleProduct",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BASE_URL}products/`+ id);
+
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.log("login error => ", err);
+    }
+  }
+);
+
+export const fetchImages = createAsyncThunk(
+  "fetchImages",
+  async ({product_id}:{product_id: number}, { rejectWithValue }) => {
+    try {
+      console.log("object")
+      const response = await fetch(`${BASE_URL}product/product_images?product_id=${product_id}`,);
+
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.log("login error => ", err);
+    }
+  }
+);
 
 const productSlice = createSlice({
-    name : 'products',
-    initialState,
-    reducers : {
-        addToFevorite(state,action){
-            const product = state.products.find(product => product.id === action.payload);
-            if (product && !state.favoriteProducts.some(favProduct => favProduct.id === product.id)) {
-                state.favoriteProducts.push(product);
-            }
-        },
-        removeFromFevorite(state,action){
-            const filteredProducts = state.favoriteProducts.filter((product) => product.id !== action.payload)
-            state.favoriteProducts = filteredProducts;
-        }
-    }
+  name: "products",
+  initialState,
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchProducts.pending, (state) => {
+        state.isloading = true;
+        state.isError = true;
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.isloading = false;
+        state.isError = false;
+        state.products = action.payload;
+      })
+      .addCase(fetchProducts.rejected, (state) => {
+        state.isError = true;
+      })
+
+      //   singleProduct
+      .addCase(selectProduct.pending, (state) => {
+        state.isloading = true;
+        state.isError = true;
+      })
+      .addCase(selectProduct.fulfilled, (state, action) => {
+        state.isloading = false;
+        state.selectedProduct = action.payload;
+      })
+      .addCase(selectProduct.rejected, (state) => {
+        state.isError = true;
+      })
+
+      // product images
+      .addCase(fetchImages.pending,(state)=>{
+        state.isloading = true;
+        state.isError = true;
+      })
+      .addCase(fetchImages.fulfilled,(state,action)=>{
+        state.selectedImages = action.payload;
+        state.isloading = false;
+      })
+      .addCase(fetchImages.rejected,(state)=>{
+        state.isError = true;
+      })
+  },
 });
 
 export default productSlice;
 
-export const productAction = productSlice.actions;
+export const productActions = productSlice.actions;

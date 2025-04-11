@@ -4,24 +4,39 @@ import { motion } from "framer-motion";
 import { type Product, products } from "../data/products";
 import { useParams } from "react-router-dom";
 import ProductList from "./ProductList";
+import { useAppDispatch } from "../store/slices";
+import { fetchImages, selectProduct } from "../store/slices/productSlice";
+import { useSelector } from "react-redux";
 
 export default function Product() {
-  const [activeImage, setActiveImage] = useState(1);
-  const [fetchedproduct, setFetchedProduct] = useState<Product>(products[0]);
+  const dispatch = useAppDispatch();
+  const { selectedProduct, selectedImages } = useSelector(
+    (state: any) => state?.product
+  );
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const { id } = useParams<{ id: string }>();
+  const productId = id ? parseInt(id) : 0;
+
+  const IMAGES = [
+    "http://127.0.0.1:8000" + selectedProduct?.productUrl,
+    ...selectedImages.map((img: any) => "http://127.0.0.1:8000" + img.imageUrl),
+  ].filter(Boolean);
 
   useEffect(() => {
-    const selectedProduct = products.find((prod) => prod.id === Number(id));
-    if (selectedProduct) {
-      setFetchedProduct(selectedProduct);
+    dispatch(selectProduct(productId));
+    dispatch(fetchImages({ product_id: productId }));
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (selectedProduct?.productUrl) {
+      setActiveImageIndex(0);
     }
-  }, [id, products]);
+  }, [selectedProduct]);
 
   function handleImageClick(index: number) {
-    setActiveImage(index);
+    setActiveImageIndex(index);
   }
-
 
   return (
     <>
@@ -30,19 +45,19 @@ export default function Product() {
           <ProductItem className="relative flex flex-col md:flex-row items-center w-full bg-rd-600 h-[70%]">
             <div className="md:w-2/3 h-full flex justify-center flex-col-reverse items-center gap-2">
               <div className="flex w-full gap-2 p-4 justify-center">
-                {fetchedproduct.images.map((image, index) => (
+                {IMAGES.map((imgUrl: string, index) => (
                   <div
                     key={index}
                     className={`${
-                      activeImage === index ? "border-3" : "border-[.5px]"
+                      activeImageIndex === index ? "border-3" : "border-[.5px]"
                     } cursor-pointer w-16 h-16 sm:w-20 sm:h-20 md:w-16 md:h-16 object-cover rounded-lg p-1 md:p-2 flex`}
                   >
                     <motion.img
                       onClick={() => handleImageClick(index)}
-                      src={image}
+                      src={imgUrl}
                       alt={`Product Image ${index + 1}`}
                       className={`w-full h-full object-cover rounded-lg ${
-                        activeImage === index ? "scale-110" : "scale-100"
+                        activeImageIndex === index ? "scale-110" : "scale-100"
                       }`}
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -50,26 +65,25 @@ export default function Product() {
                   </div>
                 ))}
               </div>
-                <div className="relative md:w-2/4 w-full h-full flex justify-center items-center">
-                  <div className="w-full max-w-full">
-                    <motion.img
-                      src={fetchedproduct.images[activeImage]}
-                      alt={fetchedproduct.title}
-                      className="w-full h-auto object-cover rounded-lg"
-                      key={activeImage} // Key ensures re-render for animation
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.5, ease: "easeInOut" }}
-                    />
-                  </div>
+              <div className="relative w-full md:w-2/4 h-80 flex justify-center items-center">
+                <div className="w-full h-full overflow-hidden rounded-lg">
+                  <motion.img
+                    src={IMAGES[activeImageIndex]}
+                    alt={selectedProduct.name}
+                    className="w-full h-full object-contain rounded-lg"
+                    key={IMAGES[activeImageIndex]}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                  />
                 </div>
-
+              </div>
             </div>
             <div className="md:w-2/3">
               <div className="w-full py-2 flex justify-between items-center  mb-2">
                 <ProductItem.Title className="md:text-xl font-bold text-sm">
-                  {fetchedproduct.title}
+                  {selectedProduct.name}
                 </ProductItem.Title>
                 <ProductItem.Button
                   icon="fa-regular fa-heart"
@@ -77,53 +91,22 @@ export default function Product() {
                 ></ProductItem.Button>
               </div>
               <ProductItem.Description className="text-gray-600 mb-4 text-sm line-clamp-4">
-                {fetchedproduct.description}
+                {selectedProduct.description}
               </ProductItem.Description>
-              {fetchedproduct.available_qty > 0 ? (
+              {selectedProduct.stockQuantity > 0 ? (
                 <div className="w-full flex items-center justify-between">
                   <ProductItem.Price
-                    discount={fetchedproduct.discount}
+                    discount={selectedProduct.discount}
                     className="text-xl font-bold"
                   >
-                    {fetchedproduct.price}
+                    {selectedProduct.price}
                   </ProductItem.Price>
                   <ProductItem.Ratings
-                    rating={fetchedproduct.rating}
+                    rating={selectedProduct.rating}
                   ></ProductItem.Ratings>
                 </div>
               ) : (
                 <p>Out of Stock</p>
-              )}
-              {fetchedproduct.specifications.size?.length > 0 && (
-                <>
-                  <div className="self-start mt-2 capitalize">size</div>
-                  <div className="w-full p-2 flex gap-2 items-center">
-                    {fetchedproduct.specifications.size.map((sizes, index) => (
-                      <div
-                        key={index}
-                        className="bg-gray-200 w-12 h-12 rounded-full border-[0.5px] border-black text-center flex justify-center items-center"
-                      >
-                        {sizes}
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-              {fetchedproduct.specifications.colors?.length > 0 && (
-                <>
-                  <div className="self-start mt-2 capitalize">colors</div>
-                  <div className="w-full p-2 flex gap-2 items-center">
-                    {fetchedproduct.specifications.colors.map(
-                      (color, index) => (
-                        <div
-                          key={index}
-                          style={{ backgroundColor: color }}
-                          className="w-12 h-12 rounded-full border-[0.5px] border-black text-center flex justify-center items-center"
-                        ></div>
-                      )
-                    )}
-                  </div>
-                </>
               )}
 
               <div className="w-full p-2 flex gap-3">

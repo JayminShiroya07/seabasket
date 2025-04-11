@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductList from "../components/ProductList";
 import FilterSidenav from "../UI/FilterSidenav";
 import Searchbar from "../UI/Searchbar";
-import { products } from "../data/products";
+import { useAppDispatch } from "../store/slices";
+import { fetchProducts } from "../store/slices/productSlice";
+import { useSelector } from "react-redux";
 
 export default function ProductLayout() {
   const [isVisible, setIsVisible] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const {products} = useSelector((state:any) => state?.product)
+
+  useEffect(() => {
+    console.log("dispatcher started");
+    dispatch(fetchProducts());
+    console.log(products);
+  }, [dispatch])
+  
 
   function toggleFilter() {
     setIsVisible(!isVisible);
@@ -41,6 +53,7 @@ export default function ProductLayout() {
             className={`${isVisible ? "md:w-4/5" : "w-full"} [&::-webkit-scrollbar]:hidden overflow-x-scroll max-h-[calc(100vh-7.9rem)]`}>
               <div className="overflow-auto">
                 <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
+
                   <ProductList products={products} />
                 </div>
               </div>
