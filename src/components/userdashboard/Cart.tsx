@@ -1,14 +1,21 @@
-import { useEffect, useState } from "react";
-import { Product, products as initialProducts } from "../../data/products";
+import { useEffect } from "react";
 import CartItem from "./CartItems";
 import Button from "../../UI/Button";
+import { useAppDispatch } from "../../store/slices";
+import { useSelector } from "react-redux";
+import { fetchCart } from "../../store/slices/cartSlice";
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState<Product[]>([]);
+
+  const dispatch = useAppDispatch();
+  const {cart_data} = useSelector((state:any) => state?.cart);
+  
 
   useEffect(() => {
-    setCartItems(initialProducts);
-  }, []);
+    const token = localStorage.getItem("AuthToken") || "";
+    dispatch(fetchCart(token));
+
+  }, [dispatch]);
 
   return (
     <div className="h-full p-4">
@@ -16,8 +23,8 @@ export default function Cart() {
       <div className="flex flex-col md:flex-row gap-4 p-1 h-full flex-wrap">
         {/* Main content: cart items */}
         <main className="flex-1 grid grid-cols-1 gap-4 max-h-full md:px-6 md:py-12 overflow-scroll [&::-webkit-scrollbar]:hidden">
-          {cartItems.map((item) => (
-            <CartItem product={item} key={item.id} />
+          {cart_data.cart_item.map((item:any) => (
+            <CartItem cart={item} key={item.id} />
           ))}
         </main>
         {/* Sidebar: cart details */}
@@ -28,18 +35,15 @@ export default function Cart() {
               <tbody>
                 <tr>
                   <th className="text-start">Total Product Price</th>
-                  <td className="text-end">+ 1,200</td>
+                  <td className="text-end">+ {cart_data.total_amount}</td>
                 </tr>
-                <tr>
-                  <th className="text-start">Total Discount</th>
-                  <td className="text-end">- 1,200</td>
-                </tr>
+               
               </tbody>
             </table>
           </div>
           <h2 className="text-lg font-bold border-t-2 pt-3 flex justify-between">
             <span>Order Total</span>
-            <span>1,200</span>
+            <span>{cart_data.total_amount}</span>
           </h2>
           <div className="w-full p-2 flex justify-end">
               <Button icon="fa fas-cart" name="Proceed to Buy" className="bg-red-500 text-white px-4 py-2 rounded-md"></Button>

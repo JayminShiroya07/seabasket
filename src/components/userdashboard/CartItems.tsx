@@ -1,28 +1,40 @@
-import { useState } from "react";
-import { Product } from "../../data/products";
+import { useEffect, useState } from "react";
 import ProductItem from "../ProductItem";
 
-const CartItem: React.FC<{ product: Product }> = ({ product }) => {
+const CartItem: React.FC<{ cart: any }> = ({ cart }) => {
     const [cartQuantity, setCartQuantity] = useState<number>(Math.floor(Math.random() * 9));
+    const [product, setProduct] = useState<any>({});
 
+    useEffect(()=>{
+        async function fetchProduct(){
+            console.log("function called")
+            const response = await fetch("http://127.0.0.1:8000/products/"+cart.product_id);
+
+            if(!response.ok){
+                throw Error("somthing were wrong");
+            }
+
+            const data = await response.json();
+            console.log(data.images)
+            setProduct(data);
+        }
+
+        fetchProduct();
+    },[cart]);
     return (
         <>
             <ProductItem className="border-2 border-black rounded-md">
                 <div className="w-full bg-dark-green text-center p-3 rounded-t">
                     <ProductItem.Title className="text-white font-extrabold font-stretch-125%">
-                        {product.title}
+                        {cart.product_name}
                     </ProductItem.Title>
                 </div>
                 <div className="w-full flex flex-col max md:flex-row gap-4 overflow-hidden">
                     <div className="md:w-1/3 w-full">
-                        <ProductItem.Image className="w-full h-auto object-cover" image={product.images[0]} />
+                        <ProductItem.Image className="w-full h-auto object-cover" image={"http://127.0.0.1:8000" + product.productUrl} />
                     </div>
                     <div className="md:w-2/3 w-full flex flex-col justify-evenly p-4 text-black">
                         <ProductItem.Price className="text-lg font-bold">{product.price}</ProductItem.Price>
-                        <ProductItem.Description className="text-md md:text-base">
-                            {product.description}
-                        </ProductItem.Description>
-                        <ProductItem.Ratings rating={product.rating} />
                         <div className="flex flex-col sm:flex-row gap-5 justify-start items-center">
                             <div className="flex w-full md:w-1/3 border-2 border-black rounded-xl overflow-hidden">
                                 <ProductItem.Button
