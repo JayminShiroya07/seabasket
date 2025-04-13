@@ -1,33 +1,55 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
 const BASE_URL = "http://127.0.0.1:8000/";
 
 const initialState = {
   products: [],
   categories: [],
-  selectedProduct: {} ,
+  selectedProduct: {},
   selectedImages: [],
   trendingProducts: [],
   categoryProduct: [],
   favoriteProducts: [],
+  selectedCategory : 0,
   isloading: false,
   isError: false,
 };
 
 export const fetchProducts = createAsyncThunk(
-  "fetchProducts",
+  "products/fetch",
+  async ({ categoryId }: { categoryId: number }, { rejectWithValue }) => {
+    try {
+      // Construct query params
+      const query = categoryId ? `?category=${categoryId}` : "";
+      const response = await fetch(`${BASE_URL}products/${query}`);
+
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (err: any) {
+      console.error("Fetch products error:", err);
+      return rejectWithValue(err.message || "Unexpected error");
+    }
+  }
+);
+
+export const fetchCategories = createAsyncThunk(
+  "fetchCategories",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${BASE_URL}products/`);
+      const response = await fetch(`${BASE_URL}categories?status=true`);
 
-        if (!response.ok) {
-          const error = await response.json();
-          // return error
-          return rejectWithValue(error);
-        }
+      if (!response.ok) {
+        const error = await response.json();
+        // return error
+        return rejectWithValue(error);
+      }
 
-        const data = await response.json();
-        return data;
+      const data = await response.json();
+      return data;
     } catch (err) {
       console.log("login error => ", err);
     }
@@ -38,15 +60,15 @@ export const fetchCarousel = createAsyncThunk(
   "fetchCarouselProducts",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${BASE_URL}products/carousel/ `+5);
+      const response = await fetch(`${BASE_URL}products/carousel/ ` + 5);
 
-        if (!response.ok) {
-          const error = await response.json();
-          return rejectWithValue(error);
-        }
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error);
+      }
 
-        const data = await response.json();
-        return data;
+      const data = await response.json();
+      return data;
     } catch (err) {
       console.log("login error => ", err);
     }
@@ -57,7 +79,7 @@ export const selectProduct = createAsyncThunk(
   "fetchSingleProduct",
   async (id: number, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${BASE_URL}products/`+ id);
+      const response = await fetch(`${BASE_URL}products/` + id);
 
       if (!response.ok) {
         const error = await response.json();
@@ -74,10 +96,12 @@ export const selectProduct = createAsyncThunk(
 
 export const fetchImages = createAsyncThunk(
   "fetchImages",
-  async ({product_id}:{product_id: number}, { rejectWithValue }) => {
+  async ({ product_id }: { product_id: number }, { rejectWithValue }) => {
     try {
-      console.log("object")
-      const response = await fetch(`${BASE_URL}product/product_images?product_id=${product_id}`,);
+      console.log("object");
+      const response = await fetch(
+        `${BASE_URL}product/product_images?product_id=${product_id}`
+      );
 
       if (!response.ok) {
         const error = await response.json();
@@ -95,7 +119,11 @@ export const fetchImages = createAsyncThunk(
 const productSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {},
+  reducers: {
+    setCategory(state,action){
+      state.selectedCategory = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -106,7 +134,6 @@ const productSlice = createSlice({
         state.isloading = false;
         state.isError = false;
         state.products = action.payload;
-        console.log("products  -> ",state.products)
       })
       .addCase(fetchProducts.rejected, (state) => {
         state.isError = true;
@@ -126,34 +153,47 @@ const productSlice = createSlice({
       })
 
       // product images
-      .addCase(fetchImages.pending,(state)=>{
+      .addCase(fetchImages.pending, (state) => {
         state.isloading = true;
         state.isError = true;
       })
-      .addCase(fetchImages.fulfilled,(state,action)=>{
+      .addCase(fetchImages.fulfilled, (state, action) => {
         state.selectedImages = action.payload;
         state.isloading = false;
       })
-      .addCase(fetchImages.rejected,(state)=>{
+      .addCase(fetchImages.rejected, (state) => {
         state.isError = true;
       })
 
       //carouesl
-      .addCase(fetchCarousel.pending,(state)=>{
+      .addCase(fetchCarousel.pending, (state) => {
         state.isloading = true;
         state.isError = true;
       })
-      .addCase(fetchCarousel.fulfilled,(state,action)=>{
+      .addCase(fetchCarousel.fulfilled, (state, action) => {
         state.isloading = false;
         state.trendingProducts = action.payload.data;
-        console.log("trending -> ",state.trendingProducts)
       })
-      .addCase(fetchCarousel.rejected,(state)=>{
+      .addCase(fetchCarousel.rejected, (state) => {
         state.isError = true;
       })
+
+      //categories
+      .addCase(fetchCategories.pending, (state) => {
+        state.isloading = true;
+        state.isError = true;
+      })
+      .addCase(fetchCategories.fulfilled, (state,action) => {
+        state.isloading = false;
+        state.isError = false;
+        state.categories = action.payload;
+      })
+      .addCase(fetchCategories.rejected, (state) => {
+        state.isError = true;
+      });
   },
 });
 
 export default productSlice;
 
-export const productActions = productSlice.actions;
+export const {setCategory} = productSlice.actions;

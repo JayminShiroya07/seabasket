@@ -11,11 +11,11 @@ export default function ProductLayout() {
   const [isVisible, setIsVisible] = useState(false);
   const dispatch = useAppDispatch();
 
-  const {products} = useSelector((state:any) => state?.product)
+  const {products,selectedCategory} = useSelector((state:any) => state?.product)
 
   useEffect(() => {
     console.log("dispatcher started");
-    dispatch(fetchProducts());
+    dispatch(fetchProducts({categoryId: selectedCategory}));
     console.log(products);
   }, [dispatch])
   

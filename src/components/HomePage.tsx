@@ -1,31 +1,29 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { categories, Category } from "../data/category";
-import { images as categoryImage } from "../data/images";
+import { categoryImages, images } from "../data/images";
 import Button from "../UI/Button";
 import { useAppDispatch } from "../store/slices";
 import { useSelector } from "react-redux";
-import { fetchCarousel } from "../store/slices/productSlice";
+import { fetchCarousel, fetchCategories, setCategory } from "../store/slices/productSlice";
 import ProductItem from "./ProductItem";
 import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
-  const images = categoryImage;
+  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [fatchedCategories, setFatchedCategories] = useState<Category[]>([]);
   const navigate = useNavigate();
 
-  const { trendingProducts } = useSelector((state: any) => state?.product);
+  const { trendingProducts, categories } = useSelector((state: any) => state?.product);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setFatchedCategories(categories);
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
 
+    dispatch(fetchCategories());
     return () => clearInterval(interval);
   }, []);
 
@@ -38,6 +36,11 @@ export default function HomePage() {
 
     return () => clearInterval(interval);
   }, [dispatch]);
+
+  function onCategorySelect(catId:number){
+    dispatch(setCategory(catId));
+    navigate('/products')
+  }
 
   return (
     <>
@@ -63,7 +66,7 @@ export default function HomePage() {
                   scale: 0,
                 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                src={categoryImage[currentImageIndex]}
+                src={images[currentImageIndex]}
                 alt=""
                 className="drop-shadow-2xl bg-cover"
               />
@@ -91,38 +94,32 @@ export default function HomePage() {
 
       {/* category section */}
       <h2 className="text-center p-3 text-4xl font-bold">Categories</h2>
-      <section className="w-full p-6 overflow-hidden">
-        <motion.div
+      <section className="w-full p-6 overflow-scroll">
+        <div
           className="flex gap-6 w-max"
-          initial={{ x: 0 }}
-          animate={{ x: "-50%" }}
-          transition={{
-            ease: "linear",
-            duration: 35,
-            repeat: Infinity,
-          }}
         >
-          {[...fatchedCategories, ...fatchedCategories].map(
-            (category, index) => (
+          {categories.map(
+            (category:any) => (
               <div
-                key={index}
-                className="bg-white shadow-lg border-2 rounded-xl overflow-hidden min-w-[250px] max-w-[300px] transform transition duration-300 hover:scale-105"
+                key={category.id}
+                className="bg-white shadow-lg border-2 rounded-xl overflow-hidden min-w-[250px] max-w-[300px] transform transition duration-300 hover:scale-105 cursor-pointer"
+                onClick={() => onCategorySelect(category.id)}
               >
                 <div className="w-full h-48 flex items-center justify-center">
                   <img
-                    src={category.image}
+                    src={categoryImages[category.id]}
                     alt={category.title}
                     className="max-h-full max-w-full object-contain"
                   />
                 </div>
 
                 <div className="p-4 bg-primary text-white text-center">
-                  <h2 className="text-lg font-semibold">{category.title}</h2>
+                  <h2 className="text-lg font-semibold">{category.categoryName}</h2>
                 </div>
               </div>
             )
           )}
-        </motion.div>
+        </div>
       </section>
 
       {/* tranding section */}
@@ -130,11 +127,11 @@ export default function HomePage() {
         Trending Products
       </h2>
       <section className="w-full mb-30 p-5">
-        <div className="flex md:flex-row flex-col gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
           {trendingProducts.map((product: any) => (
             <ProductItem
               key={product.id}
-              className="rounded-md border-2 w-full min-h-fit overflow-hidden md:w-1/4 cursor-pointer"
+              className="rounded-md border w-full min-h-[300px] overflow-hidden cursor-pointer hover:shadow-lg transition"
               onclick={() => navigate(`/products/${product.id}`)}
             >
               <div className="h-1/6 w-full  bg-primary items-center p-2 flex justify-between">
