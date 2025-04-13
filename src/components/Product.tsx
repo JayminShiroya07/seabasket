@@ -2,21 +2,38 @@ import { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
 import { motion } from "framer-motion";
 import { type Product, products } from "../data/products";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ProductList from "./ProductList";
 import { useAppDispatch } from "../store/slices";
 import { fetchImages, selectProduct } from "../store/slices/productSlice";
 import { useSelector } from "react-redux";
+import { onCartEdit } from "../store/slices/cartSlice";
+import { toast } from "react-toastify";
 
 export default function Product() {
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
   const { selectedProduct, selectedImages } = useSelector(
     (state: any) => state?.product
   );
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const { id } = useParams<{ id: string }>();
   const productId = id ? parseInt(id) : 0;
+
+
+  function onAddToCart(id: number) {
+    const token = localStorage.getItem("AuthToken") || "";
+
+    if (token) {
+      dispatch(onCartEdit({ id, method: "POST", token }));
+    } else {
+      toast.info("Login First");
+      navigate("/login");
+    }
+  }
 
   const IMAGES = [
     "http://127.0.0.1:8000" + selectedProduct?.productUrl,
@@ -26,7 +43,7 @@ export default function Product() {
   useEffect(() => {
     dispatch(selectProduct(productId));
     dispatch(fetchImages({ product_id: productId }));
-  }, [id, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (selectedProduct?.productUrl) {
@@ -120,6 +137,9 @@ export default function Product() {
                   type="cart"
                   className="w-full h-12 bg-teal border-[2px] bg- border-dark-green rounded-md text-xl text-white"
                   icon="fas fa-shopping-cart"
+                  onclick={() =>
+                    onAddToCart(selectedProduct.id)
+                  }
                 >
                   Add to cart
                 </ProductItem.Button>

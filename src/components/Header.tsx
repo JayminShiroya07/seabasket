@@ -5,6 +5,10 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../store/slices";
 import { logout} from "../store/slices/userSlice";
+const linkActive =
+    "hover:text-dark-green hover:bg-teal bg-primary een text-2xl text-black font-semibold py-1 px-6 rounded shadow-xl btn-primary transition-all duration-300 ease-in-out hover:scale-105";
+  const unActive =
+    "hover:bg-teal bg-teal text-secondary rounded text-2xl py-1 px-6 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg";
 
 
 const navItems = [
@@ -16,14 +20,10 @@ const navItems = [
 
 export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const linkActive =
-    "hover:text-dark-green hover:bg-teal bg-primary een text-2xl text-black font-semibold py-1 px-6 rounded shadow-xl btn-primary transition-all duration-300 ease-in-out hover:scale-105";
-  const unActive =
-    "hover:bg-teal bg-teal text-secondary rounded text-2xl py-1 px-6 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg";
-
   const isLoggedIn = useSelector((state: any) => state?.user.isLoggedIn);
-
+  const {cart_data} = useSelector((state:any) => state?.cart);
   const dispatch = useAppDispatch();
+
 
 
   return (
@@ -58,9 +58,9 @@ export default function Header() {
             }
           >
             <i className="fas fa-shopping-cart"></i>
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-6 h-6 flex items-center justify-center">
-              10
-            </span>
+            {cart_data.cart_item.length ? <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-6 h-6 flex items-center justify-center">
+              {cart_data.cart_item.length}
+            </span>:null}
           </NavLink>
           <NavLink
             to="login"

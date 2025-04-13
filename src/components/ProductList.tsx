@@ -1,12 +1,27 @@
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../store/slices";
+import { fetchCart, onCartEdit } from "../store/slices/cartSlice";
 import ProductItem from "./ProductItem";
 import { useNavigate } from "react-router-dom";
 
 const ProductList: React.FC<{ products: any[] }> = ({ products }) => {
-
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   function onProductSelect(id: number) {
     navigate(`/products/${id}`);
+  }
+
+  function onAddToCart(id: number) {
+    const token = localStorage.getItem("AuthToken") || "";
+
+    if (token) {
+      dispatch(onCartEdit({ id, method: "POST", token }));
+      dispatch(fetchCart(token));
+    } else {
+      toast.info("Login First");
+      navigate("/login");
+    }
   }
 
   return (
@@ -23,7 +38,7 @@ const ProductList: React.FC<{ products: any[] }> = ({ products }) => {
               onClick={() => onProductSelect(product.id)}
             >
               <ProductItem.Image
-                image={"http://127.0.0.1:8000"+product.productUrl}
+                image={"http://127.0.0.1:8000" + product.productUrl}
                 className="object-contain h-full p-4"
               />
             </div>
@@ -60,6 +75,7 @@ const ProductList: React.FC<{ products: any[] }> = ({ products }) => {
                   type="cart"
                   className="flex-1 h-10 flex items-center justify-center bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
                   icon="fas fa-shopping-cart"
+                  onclick={() => onAddToCart(product.id)}
                 />
 
                 {/* Buy Now Button */}
