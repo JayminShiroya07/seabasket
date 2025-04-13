@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../store/slices";
-import { onCartEdit } from "../store/slices/cartSlice";
+import { fetchCart, onCartEdit } from "../store/slices/cartSlice";
 import ProductItem from "./ProductItem";
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +17,7 @@ const ProductList: React.FC<{ products: any[] }> = ({ products }) => {
 
     if (token) {
       dispatch(onCartEdit({ id, method: "POST", token }));
+      dispatch(fetchCart(token));
     } else {
       toast.info("Login First");
       navigate("/login");
