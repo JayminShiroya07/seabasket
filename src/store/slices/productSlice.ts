@@ -34,6 +34,25 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
+export const fetchCarousel = createAsyncThunk(
+  "fetchCarouselProducts",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BASE_URL}products/carousel/ `+5);
+
+        if (!response.ok) {
+          const error = await response.json();
+          return rejectWithValue(error);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (err) {
+      console.log("login error => ", err);
+    }
+  }
+);
+
 export const selectProduct = createAsyncThunk(
   "fetchSingleProduct",
   async (id: number, { rejectWithValue }) => {
@@ -87,6 +106,7 @@ const productSlice = createSlice({
         state.isloading = false;
         state.isError = false;
         state.products = action.payload;
+        console.log("products  -> ",state.products)
       })
       .addCase(fetchProducts.rejected, (state) => {
         state.isError = true;
@@ -115,6 +135,20 @@ const productSlice = createSlice({
         state.isloading = false;
       })
       .addCase(fetchImages.rejected,(state)=>{
+        state.isError = true;
+      })
+
+      //carouesl
+      .addCase(fetchCarousel.pending,(state)=>{
+        state.isloading = true;
+        state.isError = true;
+      })
+      .addCase(fetchCarousel.fulfilled,(state,action)=>{
+        state.isloading = false;
+        state.trendingProducts = action.payload.data;
+        console.log("trending -> ",state.trendingProducts)
+      })
+      .addCase(fetchCarousel.rejected,(state)=>{
         state.isError = true;
       })
   },

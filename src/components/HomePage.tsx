@@ -1,33 +1,43 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { categories, Category } from "../data/category";
-import ProductItem from "./ProductItem";
-import { images as categoryImage, productImages } from "../data/images";
+import { images as categoryImage } from "../data/images";
 import Button from "../UI/Button";
+import { useAppDispatch } from "../store/slices";
+import { useSelector } from "react-redux";
+import { fetchCarousel } from "../store/slices/productSlice";
+import ProductItem from "./ProductItem";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
   const images = categoryImage;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [fatchedCategories, setFatchedCategories] = useState<Category[]>([]);
-  const [trandingProducts, setTrandingProducts] = useState<String[]>([]);
+  const navigate = useNavigate();
 
-  function shuffleArray<T>(array: T[]): T[] {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-  }
+  const { trendingProducts } = useSelector((state: any) => state?.product);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setFatchedCategories(categories);
+
     const interval = setInterval(() => {
-      setTrandingProducts(shuffleArray(productImages).slice(0, 5));
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
+
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchCarousel());
+
+    const interval = setInterval(() => {
+      dispatch(fetchCarousel());
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [dispatch]);
 
   return (
     <>
@@ -69,7 +79,12 @@ export default function HomePage() {
               Unde eos illo provident esse voluptatibus possimus, iure ducimus
               consequatur explicabo quaerat!
             </p>
-            <Button name="Shop Now" className="text-secondary border-[.5px] rounded-md bg-dark-green text-white px-4 py-2 btn-primary mt-4">Shop Now</Button>
+            <Button
+              name="Shop Now"
+              className="text-secondary border-[.5px] rounded-md bg-dark-green text-white px-4 py-2 btn-primary mt-4"
+            >
+              Shop Now
+            </Button>
           </div>
         </div>
       </section>
@@ -116,14 +131,15 @@ export default function HomePage() {
       </h2>
       <section className="w-full mb-30 p-5">
         <div className="flex md:flex-row flex-col gap-5">
-          {trandingProducts.map((img, index) => (
+          {trendingProducts.map((product: any) => (
             <ProductItem
-              key={index}
-              className="rounded-md border-2 w-full min-h-fit overflow-hidden md:w-1/4"
+              key={product.id}
+              className="rounded-md border-2 w-full min-h-fit overflow-hidden md:w-1/4 cursor-pointer"
+              onclick={() => navigate(`/products/${product.id}`)}
             >
               <div className="h-1/6 w-full  bg-primary items-center p-2 flex justify-between">
-                <ProductItem.Title className="text-2xl text-center text-secondary font-bold">
-                  Title
+                <ProductItem.Title className="text-center text-secondary font-bold">
+                  {product.name}
                 </ProductItem.Title>
                 <ProductItem.Button
                   className="w-12 h-12 flex items-center justify-center text-white text-2xl rounded-full hover:bg-red-600 hover:text-white transition"
@@ -132,20 +148,17 @@ export default function HomePage() {
               </div>
               <div className="h-5/6 w-full overflow-hidden flex justify-center items-center">
                 <ProductItem.Image
-                    image={img.toString()}
-                    className="h-fit w-full object-contain"
-                    />
+                  image={"http://127.0.0.1:8000" + product.productUrl}
+                  className="h-fit w-full object-contain"
+                />
               </div>
               <div className="h-1/6 border-t-2 px-3 py-1 flex justify-between items-center">
-                <ProductItem.Price className="font-bold text-2xl">
-                  123
-                </ProductItem.Price>
-                <ProductItem.Button
-                  className="p-2 rounded outline-1 outline-blue-400 hover:bg-[#1E40AF] hover:text-white"
-                  type="buy"
+                <ProductItem.Price
+                  className="font-bold text-2xl"
+                  discount={product.discount}
                 >
-                  But Now
-                </ProductItem.Button>
+                  {product.price}
+                </ProductItem.Price>
               </div>
             </ProductItem>
           ))}
