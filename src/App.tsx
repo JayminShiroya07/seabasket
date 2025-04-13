@@ -49,8 +49,7 @@ function App() {
             {
               path:'wishlist',
               element:<Wishlist/>
-            }
-
+            },
           ]
         },
         {

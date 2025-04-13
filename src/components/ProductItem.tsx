@@ -11,6 +11,8 @@ import Ratings from "./ProductUi/Ratings";
 interface ProductItemProps {
     children?: React.ReactNode;
     className?: string;
+    onclick ?: () => void;
+
 }
 
 interface ProductItemCompound extends React.FC<ProductItemProps> {
@@ -23,8 +25,8 @@ interface ProductItemCompound extends React.FC<ProductItemProps> {
     Ratings : typeof Ratings;
 }
 
-const ProductItem: ProductItemCompound = ({ children, className }) => {
-    return <div className={className}>{children}</div>;
+const ProductItem: ProductItemCompound = ({ children, className, onclick }) => {
+    return <div className={className} onClick={onclick}>{children}</div>;
 };
 
 ProductItem.Title = Title;
