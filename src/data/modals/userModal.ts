@@ -5,3 +5,8 @@ export type signupModal = {
     phoneNumber:string,
     status:true
 }
+
+export type changePasswordModal = {
+    old_password : string,
+    new_password : string
+}
