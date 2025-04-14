@@ -15,6 +15,8 @@ import Product from './components/Product'
 import { Provider } from 'react-redux' 
 import store from './store/slices'
 import ChangePassword from './components/ChangePassword'
+import ForgotPassword from './components/FotgotPasword'
+import ResetMail from './components/ResetMail'
 
 function App() {
 
@@ -73,6 +75,19 @@ function App() {
         {
           path : 'ChangePassword',
           element : <ChangePassword/>,
+        },
+        {
+          path : 'reset-password',
+          children:[
+            {
+              index:true,
+              element: <ResetMail/>
+            },
+            {
+              path: ':token',
+              element: <ForgotPassword/>
+            }
+          ],
         }
       ]
     },

@@ -105,7 +105,7 @@ export default function Login() {
               <div className="text-sm text-gray-600">
                 Forgot Password?{" "}
                 <Link
-                  to="../forgot-password"
+                  to="../reset-password"
                   className="underline text-primary"
                 >
                   Click here

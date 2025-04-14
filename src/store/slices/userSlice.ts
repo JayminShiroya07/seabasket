@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { changePasswordModal, profileModal, signupModal } from "../../data/modals/userModal";
+import {
+  changePasswordModal,
+  profileModal,
+  signupModal,
+} from "../../data/modals/userModal";
 import { toast } from "react-toastify";
 import { NavigateFunction } from "react-router-dom";
 
@@ -7,7 +11,7 @@ const BASE_URL = "http://127.0.0.1:8000/";
 
 const initialState = {
   profile: {
-    address: ''
+    address: "",
   },
   orders: [],
   wishList: [],
@@ -37,6 +41,50 @@ export const login = createAsyncThunk(
     } catch (err) {
       console.log("login error => ", err);
     }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "resetPassword",
+  async ({ userFormData,navigate }: { userFormData: any ,navigate:NavigateFunction}, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BASE_URL}reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${userFormData.token}`,
+        },
+        body: userFormData,
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error);
+      }
+      const data = await response.json();
+      navigate('/login');
+      return data;
+    } catch (err) {
+      console.log("login error => ", err);
+    }
+  }
+);
+
+export const sendMail = createAsyncThunk(
+  "reset-password/sendmail",
+  async ({email,navigate}:{email:string,navigate:NavigateFunction}) => {
+    const res = await fetch(`${BASE_URL}user/forgot_password?email=${email}`,{
+      method: 'POST'
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.detail || "Something went wrong");
+    }
+
+    const data = await res.json();
+    navigate('/login');
+    return data;
   }
 );
 
@@ -132,7 +180,10 @@ export const fetchProfile = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
   "updateProfile",
-  async ({ profileData,token }: { profileData: profileModal,token:string }, { rejectWithValue }) => {
+  async (
+    { profileData, token }: { profileData: profileModal; token: string },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await fetch(`${BASE_URL}user`, {
         method: "PUT",
@@ -181,9 +232,9 @@ const userSlice = createSlice({
       state.profile = emptyProfile;
       toast.info("User Logout Successfully..!");
     },
-    updateAddress(state,action){
-      state.profile = {...state.profile, address:action.payload}
-    }
+    updateAddress(state, action) {
+      state.profile = { ...state.profile, address: action.payload };
+    },
   },
   extraReducers(builder) {
     builder
@@ -235,24 +286,54 @@ const userSlice = createSlice({
 
       //profile
       .addCase(fetchProfile.fulfilled, (state, action) => {
-        state.profile = {...state.profile,...action.payload};
-        console.log(state.profile)
+        state.profile = { ...state.profile, ...action.payload };
+        console.log(state.profile);
       })
 
       //update profile
-      .addCase(updateProfile.pending,(state)=>{
+      .addCase(updateProfile.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateProfile.fulfilled,(state,action)=>{
+      .addCase(updateProfile.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.profile = {...state.profile,...action.payload};
-        toast.success('profile updated')
+        state.profile = { ...state.profile, ...action.payload };
+        toast.success("profile updated");
         console.log(state.profile);
-
       })
-      .addCase(updateProfile.rejected,(state)=>{
+      .addCase(updateProfile.rejected, (state) => {
         state.isLoading = false;
       })
+
+      //reset password
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoggedIn = false;
+        state.isLoading = false;
+        toast.success(action.payload.message);
+      })
+      .addCase(resetPassword.rejected, (state) => {
+        state.isLoggedIn = false;
+        state.isLoading = false;
+        toast.error("Somthing were wrong please try again leter..!");
+      })
+
+      //send mail
+      .addCase(sendMail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(sendMail.fulfilled, (state, action) => {
+        state.isLoggedIn = false;
+        state.isLoading = false;
+        toast.success(action.payload.message)
+        console.log(action.payload.message)
+      })
+      .addCase(sendMail.rejected, (state) => {
+        state.isLoggedIn = false;
+        state.isLoading = false;
+        toast.error("Somthing were wrong please try again leter..!");
+      });
   },
 });
 
