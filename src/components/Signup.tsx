@@ -24,14 +24,8 @@ export default function Signup() {
     const cpassword = formData.get("cpassword")?.toString().trim() || "";
     const phoneNumber = formData.get("mobile")?.toString().trim() || "";
 
-    if (
-      name === "" &&
-      email === "" &&
-      password === "" &&
-      cpassword === "" &&
-      phoneNumber === ""
-    ) {
-      toast.error("All fields are requier");
+    if (!name || !email || !password || !cpassword || !phoneNumber) {
+      toast.error("All fields are required.");
       return;
     }
 

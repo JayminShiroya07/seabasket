@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { signupModal } from "../../data/modals/userModal";
+import { changePasswordModal, signupModal } from "../../data/modals/userModal";
 import { toast } from "react-toastify";
+import { NavigateFunction } from "react-router-dom";
+
 
 const BASE_URL = "http://127.0.0.1:8000/"
 
@@ -45,6 +47,37 @@ export const login = createAsyncThunk(
     }
   }
 );
+
+export const changePassword = createAsyncThunk(
+  "changePassword",
+  async ({changeData,token,navigate}:{changeData:changePasswordModal,token:string,navigate:NavigateFunction},{rejectWithValue}) => {
+    try{
+      const response = await fetch(`${BASE_URL}user/change_password`, {
+        method: "POST",
+        headers:{
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(changeData),
+      });
+
+      if(!response.ok){
+      console.log("not ok");
+
+        const error = await response.json();
+        return rejectWithValue(error);
+      }
+
+      const data = await response.json();
+      navigate("/login")
+      return data;
+      
+    }catch(err){
+      return rejectWithValue(err);
+    }
+  }
+);
+
 
 export const signup = createAsyncThunk(
   'signup',
@@ -131,6 +164,22 @@ const userSlice = createSlice({
     })
     .addCase(signup.pending,(state)=>{
       state.isLoading = true;
+    })
+
+    //change password
+    .addCase(changePassword.pending,(state)=>{
+      state.isLoading = true;
+    })
+    .addCase(changePassword.fulfilled,(state,action)=>{
+      state.isLoading = false;
+      state.isLoggedIn = false;
+      console.log("success")
+      toast.success(action.payload.message);
+      localStorage.removeItem("AuthToken");
+    })
+    .addCase(changePassword.rejected,(state,action)=>{
+      state.isLoading = false;
+      toast.error("Password not changed pleased try again");  
     })
   }
 });

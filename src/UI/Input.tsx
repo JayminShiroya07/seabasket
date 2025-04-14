@@ -24,6 +24,7 @@ const Input: React.FC<ChildNode> = (props) => {
         placeholder={props.placeHolder}
         value={props.value}
         name={props.name}
+        required
       />
     </div>
   );

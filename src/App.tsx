@@ -14,6 +14,7 @@ import Wishlist from './components/userdashboard/Wishlist'
 import Product from './components/Product'
 import { Provider } from 'react-redux' 
 import store from './store/slices'
+import ChangePassword from './components/ChangePassword'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
     {
       path: '/', 
       element: <MainLayout />,
+      errorElement: <></>,
       children:[
         {
           index: true,
@@ -67,6 +69,10 @@ function App() {
         {
           path : 'products/:id',
           element: <Product/>
+        },
+        {
+          path : 'ChangePassword',
+          element : <ChangePassword/>,
         }
       ]
     },
