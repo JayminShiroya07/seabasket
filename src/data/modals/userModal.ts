@@ -10,3 +10,11 @@ export type changePasswordModal = {
     old_password : string,
     new_password : string
 }
+
+
+export type profileModal = {
+    email: string;
+    name: string;
+    phoneNumber: string;
+    profilePic: string;
+}
