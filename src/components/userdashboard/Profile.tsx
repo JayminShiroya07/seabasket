@@ -1,21 +1,24 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import user from "../../assets/user.png";
+import { useAppDispatch } from "../../store/slices";
+import { fetchProfile, updateProfile } from "../../store/slices/userSlice";
+import { useSelector } from "react-redux";
+import Button from "../../UI/Button";
+import { profileModal } from "../../data/modals/userModal";
 
-type profileDetails = {
-  name : string,
-  mobile : number,
-  address : string,
-  image : string | undefined,
-  mail: string
-}
 
 export default function Profile() {
-  const [profilePhoto, setProfilePhoto] = useState<string | undefined>(user.toString());
-  const name = useRef<HTMLInputElement>(null);
-  const email = useRef<HTMLInputElement>(null);
-  const mobile = useRef<HTMLInputElement>(null);
-  const address = useRef<HTMLTextAreaElement>(null);
-  const image = useRef<HTMLInputElement>(null);
+  const [profilePhoto, setProfilePhoto] = useState<string | undefined>(
+    user.toString()
+  );
+
+  const dispatch = useAppDispatch();
+  const { profile } = useSelector((state: any) => state?.user);
+
+  useEffect(() => {
+    const token = localStorage.getItem("AuthToken") || "";
+    dispatch(fetchProfile({ token }));
+  }, [dispatch]);
 
   function onPhotoChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -28,35 +31,38 @@ export default function Profile() {
 
     fileReader.onload = () => {
       setProfilePhoto(fileReader.result?.toString());
-      
     };
 
     fileReader.readAsDataURL(file);
   }
 
-  function OnFormSubmit(event: React.FormEvent){
+  function OnFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const updatedProfileDetails : profileDetails = {
-      name : name.current!.value,
-      mail : email.current!.value,
-      mobile : parseInt(mobile.current!.value),
-      address : address.current!.value,
-      image : profilePhoto?.toString(),
-    }
-    
-    console.log(updatedProfileDetails)
-  } 
 
+    const formData = new FormData(event.currentTarget);
+
+    const name = formData.get("name")?.toString().trim() || "";
+    const email = formData.get("mail")?.toString().trim() || "";
+    const phoneNumber = formData.get("mobile")?.toString().trim() || "";
+    const profilePic = "https://static.vecteezy.com/system/resources/previews/043/900/708/non_2x/user-profile-icon-illustration-vector.jpg";
+
+    const updatedProfileDetails : profileModal = {
+      name,email,phoneNumber,profilePic
+    }
+    const token = localStorage.getItem("AuthToken") || '';
+    dispatch(updateProfile({profileData:updatedProfileDetails,token}))
+    // console.log(updatedProfileDetails);
+  }
 
   return (
-    <div className="w-full h-full flex p-6 bg-white shadow-md rounded-lg gap-3">
+    <div className="w-full h-full flex flex-col md:flex-row p-6 bg-white shadow-md rounded-lg gap-3">
       {/* user profile photo */}
-      <div className="w-1/3 h-full shadow-xl rounded-md flex  flex-col justify-start gap-3">
-        <div className="h-1/2 w-full flex justify-center p-3 py-6 flex-col items-center gap-3">
+      <div className="w-full md:w-1/3 h-full shadow-xl rounded-md flex flex-col justify-start gap-3">
+        <div className="h-auto md:h-1/2 w-full flex justify-center p-5 py-6 flex-col items-center gap-3">
           <img
-            src={profilePhoto}
+            src={profile.profilePic}
             alt=""
-            className="h-full rounded-full drop-shadow-2xl"
+            className="h-40 w-40 md:h-50 md:w-50 rounded-full drop-shadow-2xl object-cover"
           />
         </div>
         {/* user photo */}
@@ -68,7 +74,6 @@ export default function Profile() {
             Upload Photo
           </label>
           <input
-            ref={image}
             id="userPhoto"
             type="file"
             accept=".png, .jpg, .jpeg"
@@ -77,7 +82,7 @@ export default function Profile() {
           />
         </div>
       </div>
-      <div className="md:w-2/3 h-full flex shadow-xl flex-col rounded-md overflow-hidden">
+      <div className="w-full md:w-2/3 h-full flex shadow-xl flex-col rounded-md">
         <div className="bg-dark-green flex justify-center items-center text-white flex-col p-4 text-2xl capitalize">
           <h1>user Information</h1>
         </div>
@@ -91,11 +96,11 @@ export default function Profile() {
                 Username
               </label>
               <input
-                ref={name}
                 type="text"
                 className="border-[1px] border-black rounded-md bg-transparent p-3"
                 placeholder="Your Name"
                 name="name"
+                defaultValue={profile.name}
               />
             </div>
             <div className="w-full flex flex-col gap-1">
@@ -106,11 +111,12 @@ export default function Profile() {
                 email
               </label>
               <input
-                ref={email}
                 type="email"
                 className="border-[1px] border-black rounded-md bg-transparent p-3"
                 placeholder="Your Email"
                 name="mail"
+                defaultValue={profile.email}
+
               />
             </div>
             <div className="w-full flex flex-col gap-1">
@@ -121,11 +127,11 @@ export default function Profile() {
                 mobile number
               </label>
               <input
-                ref={mobile}
-                type="number"
+                type="text"
                 className="border-[1px] border-black rounded-md bg-transparent p-3"
                 placeholder="Your Mobile Number"
                 name="mobile"
+                defaultValue={profile.phoneNumber}
               />
             </div>
             <div className="w-full flex flex-col gap-1">
@@ -136,17 +142,32 @@ export default function Profile() {
                 Address
               </label>
               <textarea
-                ref={address}
                 cols={20}
                 rows={5}
                 className="border-[1px] border-black rounded-md bg-transparent p-3"
                 placeholder="Your Address"
                 name="address"
+                defaultValue={profile.address}
               />
             </div>
-            <div className="w-full flex flex-col gap-2">
-              <input type="submit" name="reset" className="px-5 border-[1px] rounded-md py-2 w-full bg-dark-green text-white text-lg"></input>
-              <input type="reset" name="reset" className="px-5 border-[1px] rounded-md py-2 w-full"></input>
+            <div className="w-full flex gap-2">
+              <Button
+                type="submit"
+                name="submit"
+                className="px-5 border-[1px] rounded-md py-2 w-full bg-dark-green text-white text-lg"
+              ></Button>
+              <Button
+                type="reset"
+                name="reset"
+                className="px-5 border-[1px] rounded-md py-2 w-full"
+              ></Button>
+            </div>
+            <div className="w-full flex gap-2">
+              <Button
+                type="button"
+                name="changePassword"
+                className="px-5 border-[1px] cursor-pointer rounded-md py-2 w-full bg-warning text-white text-lg"
+              >Change Password</Button>
             </div>
           </div>
         </form>

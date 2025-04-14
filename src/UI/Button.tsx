@@ -16,7 +16,7 @@ const Button: React.FC<ChildNode> = (props) => {
 return (
     <motion.button 
         whileHover={{
-            scale: 1.1,
+            scale: 1,
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.7)",
             transition: { duration: 0.1 }  // Faster hover transition
         }}
