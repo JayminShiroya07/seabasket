@@ -29,12 +29,31 @@ export default function Signup() {
       return;
     }
 
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        <div>
+        <p className="font-semibold">Password must meet the following criteria:</p>
+        <ul className="list-disc list-inside mt-2 text-sm">
+          <li>At least 8 characters long</li>
+          <li>One uppercase letter</li>
+          <li>One lowercase letter</li>
+          <li>One number</li>
+          <li>One special character (e.g. @, #, $, !)</li>
+        </ul>
+      </div>
+      );
+      return;
+    }
+
     if (password !== cpassword) {
       toast.error("Password and Comfirm password should be same.");
       return;
     }
 
-    if (phoneNumber.length !== 10) {
+    if (phoneNumber.length !== 10 || !/^\d{10}$/.test(phoneNumber)) {
       toast.error("Mobile number should be 10 digit long.");
       return;
     }
@@ -48,9 +67,9 @@ export default function Signup() {
     };
 
     //register code
-    dispatch(signup({userData}));
+    dispatch(signup({ userData }));
     toast.info("User Register Successfully..!");
-    navigate("/login")
+    navigate("/login");
   }
 
   return (
