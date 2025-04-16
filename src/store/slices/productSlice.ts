@@ -9,8 +9,8 @@ const initialState = {
   trendingProducts: [],
   categoryProduct: [],
   favoriteProducts: [],
-  selectedCategory : 0,
-  isloading: false,
+  selectedCategory: 0,
+  isloading: true,
   isError: false,
 };
 
@@ -32,6 +32,26 @@ export const fetchProducts = createAsyncThunk(
     } catch (err: any) {
       console.error("Fetch products error:", err);
       return rejectWithValue(err.message || "Unexpected error");
+    }
+  }
+);
+
+export const searchProducts = createAsyncThunk(
+  "searchProducts",
+  async (searchData: string , {rejectWithValue}) => {
+    try {    
+      const response = await fetch(`${BASE_URL}products/?${searchData}`,);
+
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error);
+      }
+
+      const data = await response.json();
+      return data;
+
+    } catch (err) {
+      console.log(err)
     }
   }
 );
@@ -120,7 +140,7 @@ const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    setCategory(state,action){
+    setCategory(state, action) {
       state.selectedCategory = action.payload;
     }
   },
@@ -137,6 +157,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state) => {
         state.isError = true;
+        state.isloading = false;
       })
 
       //   singleProduct
@@ -150,6 +171,7 @@ const productSlice = createSlice({
       })
       .addCase(selectProduct.rejected, (state) => {
         state.isError = true;
+        state.isloading = false;
       })
 
       // product images
@@ -162,6 +184,7 @@ const productSlice = createSlice({
         state.isloading = false;
       })
       .addCase(fetchImages.rejected, (state) => {
+        state.isloading = false;
         state.isError = true;
       })
 
@@ -175,25 +198,40 @@ const productSlice = createSlice({
         state.trendingProducts = action.payload.data;
       })
       .addCase(fetchCarousel.rejected, (state) => {
+        state.isloading = false;
         state.isError = true;
       })
 
       //categories
       .addCase(fetchCategories.pending, (state) => {
         state.isloading = true;
-        state.isError = true;
       })
-      .addCase(fetchCategories.fulfilled, (state,action) => {
+      .addCase(fetchCategories.fulfilled, (state, action) => {
         state.isloading = false;
         state.isError = false;
         state.categories = action.payload;
       })
       .addCase(fetchCategories.rejected, (state) => {
+        state.isloading = false;
         state.isError = true;
-      });
+      })
+
+      //product search
+      .addCase(searchProducts.pending, (state)=>{
+        state.isloading = true;
+      })
+      .addCase(searchProducts.fulfilled, (state,action)=>{
+        state.isloading = true;
+        console.log(state.isloading);
+        state.products = action.payload;
+      })
+      .addCase(searchProducts.rejected, (state)=>{
+        state.isloading = false;
+        state.isError = true;
+      })
   },
 });
 
 export default productSlice;
 
-export const {setCategory} = productSlice.actions;
+export const { setCategory } = productSlice.actions;

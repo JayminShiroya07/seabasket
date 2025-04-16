@@ -13,8 +13,7 @@ export default function SortList() {
     setCategory(sortingArray);
   }, [sortingArray]);
   return (
-    <div className="w-full">
-      <label className="text-gray-800 font-bold">Sort</label>
+    <div className="w-full flex gap-3">
       <div className="relative">
         <select
           name="category"
@@ -32,13 +31,7 @@ export default function SortList() {
           ))}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
-          <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-            <path
-              fillRule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <i className="fas fa-angle-down"></i>
         </div>
       </div>
     </div>
