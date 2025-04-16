@@ -6,14 +6,16 @@ import { useAppDispatch } from "../store/slices";
 import { checkLogin } from "../store/slices/userSlice";
 import Loader from "../UI/Loader";
 import { useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 export default function MainLayout() {
   const dispatch = useAppDispatch();
 
-  const { isLoading } = useSelector((state: any) => state?.user);
+  // const { isLoading,} = useSelector((state: any) => state?.user);
+  const { isLoading } = useSelector((state: any) => state.product);
 
   useEffect(() => {
+
     dispatch(checkLogin());
   }, [dispatch]);
 
