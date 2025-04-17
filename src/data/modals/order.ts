@@ -15,7 +15,7 @@ export const orders: order[] = [
         date: new Date("2023-01-01"),
         item: [items[0], items[1], items[4], items[5], items[8], items[9]],
         total: 200,
-        status: "shipped",
+        status: "cancelled",
         deliveryDate: new Date("2023-01-05"),
     },
     {

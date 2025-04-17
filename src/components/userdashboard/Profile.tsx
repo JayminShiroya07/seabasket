@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import user from "../../assets/user.png";
 import { useAppDispatch } from "../../store/slices";
-import { fetchProfile, updateProfile } from "../../store/slices/userSlice";
+import { fetchProfile, updateAddress, updateProfile } from "../../store/slices/userSlice";
 import { useSelector } from "react-redux";
 import Button from "../../UI/Button";
 import { profileModal } from "../../data/modals/userModal";
@@ -45,12 +45,14 @@ export default function Profile() {
     const email = formData.get("mail")?.toString().trim() || "";
     const phoneNumber = formData.get("mobile")?.toString().trim() || "";
     const profilePic = "https://static.vecteezy.com/system/resources/previews/043/900/708/non_2x/user-profile-icon-illustration-vector.jpg";
+    const address = formData.get('address')?.toString().trim() || '';
 
     const updatedProfileDetails : profileModal = {
       name,email,phoneNumber,profilePic
     }
     const token = localStorage.getItem("AuthToken") || '';
     dispatch(updateProfile({profileData:updatedProfileDetails,token}))
+    dispatch(updateAddress(address))
     // console.log(updatedProfileDetails);
   }
 
@@ -60,7 +62,7 @@ export default function Profile() {
       <div className="w-full md:w-1/3 h-full shadow-xl rounded-md flex flex-col justify-start gap-3">
         <div className="h-auto md:h-1/2 w-full flex justify-center p-5 py-6 flex-col items-center gap-3">
           <img
-            src={profile.profilePic}
+            src={profile.profilePic || profilePhoto}
             alt=""
             className="h-40 w-40 md:h-50 md:w-50 rounded-full drop-shadow-2xl object-cover"
           />

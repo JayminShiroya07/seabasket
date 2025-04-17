@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 import { toast } from "react-toastify";

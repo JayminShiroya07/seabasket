@@ -4,7 +4,7 @@ import ProductList from "../components/ProductList";
 import FilterSidenav from "../UI/FilterSidenav";
 import Searchbar from "../UI/Searchbar";
 import { useAppDispatch } from "../store/slices";
-import { fetchProducts } from "../store/slices/productSlice";
+import { fetchProducts, resetCategory } from "../store/slices/productSlice";
 import { useSelector } from "react-redux";
 
 export default function ProductLayout() {
@@ -14,6 +14,11 @@ export default function ProductLayout() {
 
   useEffect(() => {
     dispatch(fetchProducts({categoryId: selectedCategory}));
+
+    return () => {
+      dispatch(resetCategory());
+    }
+
   }, [dispatch])
   
 

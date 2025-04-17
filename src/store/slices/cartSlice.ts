@@ -72,8 +72,13 @@ export const fetchCart = createAsyncThunk(
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState,
-  reducers: {},
+  initialState :initialState,
+  reducers: {
+    emptyCart(){
+      console.log("cart empty")
+      return initialState;
+    },
+  },
   extraReducers(builder) {
     builder
       //fetch cart
@@ -109,4 +114,4 @@ const cartSlice = createSlice({
 
 export default cartSlice;
 
-export const cartActions = cartSlice.actions;
+export const {emptyCart} = cartSlice.actions;

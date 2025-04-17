@@ -1,106 +1,106 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './App.css'
-import MainLayout from './layouts/MainLayout'
-import HomePage from './components/HomePage'
-import Profile from './components/userdashboard/Profile'
-import ContactUs from './components/ContactUs'
-import Login from './components/Login'
-import ProductLayout from './layouts/ProducLayout'
-import Signup from './components/Signup'
-import ProfileLayout from './layouts/ProfileLayout'
-import Cart from './components/userdashboard/Cart'
-import Orders from './components/userdashboard/Orders'
-import Wishlist from './components/userdashboard/Wishlist'
-import Product from './components/Product'
-import { Provider } from 'react-redux' 
-import store from './store/slices'
-import ChangePassword from './components/ChangePassword'
-import ForgotPassword from './components/FotgotPasword'
-import ResetMail from './components/ResetMail'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./App.css";
+import MainLayout from "./layouts/MainLayout";
+import HomePage from "./components/HomePage";
+import Profile from "./components/userdashboard/Profile";
+import ContactUs from "./components/ContactUs";
+import Login from "./components/Login";
+import ProductLayout from "./layouts/ProducLayout";
+import Signup from "./components/Signup";
+import ProfileLayout from "./layouts/ProfileLayout";
+import Cart from "./components/userdashboard/Cart";
+import Orders from "./components/userdashboard/Orders";
+import Wishlist from "./components/userdashboard/Wishlist";
+import Product from "./components/Product";
+import { Provider } from "react-redux";
+import store ,{ persistor } from "./store/slices";
+import ChangePassword from "./components/ChangePassword";
+import ForgotPassword from "./components/FotgotPasword";
+import ResetMail from "./components/ResetMail";
+
+import { PersistGate } from 'redux-persist/integration/react'
 
 function App() {
-
   const router = createBrowserRouter([
     {
-      path: '/', 
+      path: "/",
       element: <MainLayout />,
       errorElement: <></>,
-      children:[
+      children: [
         {
           index: true,
           element: <HomePage />,
         },
         {
-          path: 'products',
-          element: <ProductLayout/>
+          path: "products",
+          element: <ProductLayout />,
         },
         {
-          path: 'my',
-          element: <ProfileLayout/>,
-          children:[
+          path: "my",
+          element: <ProfileLayout />,
+          children: [
             {
-              path: 'profile',
-              element:<Profile/>
+              path: "profile",
+              element: <Profile />,
             },
             {
-              path: 'cart',
-              element: <Cart/>
+              path: "cart",
+              element: <Cart />,
             },
             {
-              path:'order',
-              element:<Orders/>
+              path: "order",
+              element: <Orders />,
             },
             {
-              path:'wishlist',
-              element:<Wishlist/>
+              path: "wishlist",
+              element: <Wishlist />,
             },
-          ]
-        },
-        {
-          path: 'contact-us',
-          element: <ContactUs/>
-        },
-        {
-          path: 'login',
-          element: <Login/>
-        },
-        {
-          path: 'signup',
-          element: <Signup/>
-        },
-        {
-          path : 'products/:id',
-          element: <Product/>
-        },
-        {
-          path : 'ChangePassword',
-          element : <ChangePassword/>,
-        },
-        {
-          path : 'reset-password',
-          children:[
-            {
-              index:true,
-              element: <ResetMail/>
-            },
-            {
-              path: ':token',
-              element: <ForgotPassword/>
-            }
           ],
-        }
-      ]
+        },
+        {
+          path: "contact-us",
+          element: <ContactUs />,
+        },
+        {
+          path: "login",
+          element: <Login />,
+        },
+        {
+          path: "signup",
+          element: <Signup />,
+        },
+        {
+          path: "products/:id",
+          element: <Product />,
+        },
+        {
+          path: "ChangePassword",
+          element: <ChangePassword />,
+        },
+        {
+          path: "reset-password",
+          children: [
+            {
+              index: true,
+              element: <ResetMail />,
+            },
+            {
+              path: ":token",
+              element: <ForgotPassword />,
+            },
+          ],
+        },
+      ],
     },
-
   ]);
 
   return (
-    <div >
-      <Provider store={store}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <RouterProvider router={router} />
-      </Provider>
-    </div>
-  )
+      </PersistGate>
+    </Provider>
+  );
 }
 
-export default App
+export default App;
