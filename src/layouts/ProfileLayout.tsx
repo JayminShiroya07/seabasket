@@ -3,6 +3,7 @@ import { profileDetails } from "../data/modals/profileDetails";
 import { products } from "../data/products";
 import { NavLink, Outlet } from "react-router-dom";
 import { motion } from "motion/react";
+import { useSelector } from "react-redux";
 
 const MotionNavLink = motion.create(NavLink);
 
@@ -38,6 +39,8 @@ export default function ProfileLayout() {
   const [isMobile, setIsMobile] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const { profile} = useSelector((state:any) => state.user);
+
   
   useEffect(() => {
     const checkScreenSize = () => {
@@ -70,7 +73,7 @@ export default function ProfileLayout() {
             {!isCollapsed && (
               <div>
                 <h1 className="font-bold text-xl">Dashboard</h1>
-                <p>Jaymeen Shiroya</p>
+                <p>{profile.name}</p>
               </div>
             )}
             <button

@@ -142,6 +142,9 @@ const productSlice = createSlice({
   reducers: {
     setCategory(state, action) {
       state.selectedCategory = action.payload;
+    },
+    resetCategory(state){
+      state.selectedCategory = 0;
     }
   },
   extraReducers(builder) {
@@ -234,4 +237,4 @@ const productSlice = createSlice({
 
 export default productSlice;
 
-export const { setCategory } = productSlice.actions;
+export const { setCategory, resetCategory } = productSlice.actions;

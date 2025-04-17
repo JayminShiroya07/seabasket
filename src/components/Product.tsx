@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
 import { motion } from "framer-motion";
-import { type Product, products } from "../data/products";
 import { useNavigate, useParams } from "react-router-dom";
-import ProductList from "./ProductList";
 import { useAppDispatch } from "../store/slices";
 import { fetchImages, selectProduct } from "../store/slices/productSlice";
 import { useSelector } from "react-redux";
@@ -148,14 +146,7 @@ export default function Product() {
           </ProductItem>
         </div>
         <div className="w-full border-[.5px] rounded-md overflow-hidden">
-          <div className=" relative bg-teal h-12 text-center flex justify-center items-center text-2xl">
-            Similar Products
-          </div>
-          <div className="md:overflow-scroll max-h-[calc(100%-3rem)] overflow-hidden border-[0.5px] [&::-webkit-scrollbar]:hidden">
-            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 p-4">
-              <ProductList products={products} />
-            </div>
-          </div>
+          {/* review section */}
         </div>
       </div>
     </>

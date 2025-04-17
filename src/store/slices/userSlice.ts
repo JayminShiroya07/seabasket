@@ -219,18 +219,11 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
     },
     logout(state) {
-      state.isLoggedIn = false;
       localStorage.removeItem("AuthToken");
-      const emptyProfile = {
-        userId: 0,
-        name: "",
-        profilePic: "",
-        phoneNumber: "",
-        email: "",
-        address: "",
-      };
-      state.profile = emptyProfile;
-      toast.info("User Logout Successfully..!");
+      toast.info("User Logout Successfully..!",{
+        position: "bottom-right"
+      });
+      return initialState;
     },
     updateAddress(state, action) {
       state.profile = { ...state.profile, address: action.payload };
@@ -339,4 +332,4 @@ const userSlice = createSlice({
 
 export default userSlice;
 
-export const { logout, checkLogin } = userSlice.actions;
+export const { logout, checkLogin, updateAddress } = userSlice.actions;
