@@ -13,12 +13,13 @@ import Orders from "./components/userdashboard/Orders";
 import Wishlist from "./components/userdashboard/Wishlist";
 import Product from "./components/Product";
 import { Provider } from "react-redux";
-import store ,{ persistor } from "./store/slices";
+import store, { persistor } from "./store/slices";
 import ChangePassword from "./components/ChangePassword";
 import ForgotPassword from "./components/FotgotPasword";
 import ResetMail from "./components/ResetMail";
 
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from "redux-persist/integration/react";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -37,7 +38,11 @@ function App() {
         },
         {
           path: "my",
-          element: <ProfileLayout />,
+          element: (
+            <ProtectedRoute>
+              <ProfileLayout />
+            </ProtectedRoute>
+          ),
           children: [
             {
               path: "profile",
@@ -75,7 +80,10 @@ function App() {
         },
         {
           path: "ChangePassword",
-          element: <ChangePassword />,
+          element: 
+            <ProtectedRoute>
+              <ChangePassword />,
+            </ProtectedRoute>,
         },
         {
           path: "reset-password",
