@@ -73,7 +73,7 @@ const ProductList: React.FC<{ products: any[] }> = ({ products }) => {
                 {/* Add to Cart Button */}
                 <ProductItem.Button
                   type="cart"
-                  className="flex-1 h-10 flex items-center justify-center bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                  className="flex-1 h-10 flex items-center justify-center bg-dark-green text-white rounded-md hover:bg-teal transition"
                   icon="fas fa-shopping-cart"
                   onclick={() => onAddToCart(product.id)}
                 />
@@ -81,17 +81,17 @@ const ProductList: React.FC<{ products: any[] }> = ({ products }) => {
                 {/* Buy Now Button */}
                 <ProductItem.Button
                   type="buy"
-                  className="flex-1 h-10 flex items-center justify-center border-2 border-blue-600 text-blue-600 rounded-md hover:bg-blue-100 transition font-semibold"
+                  className="flex-1 h-10 flex items-center justify-center border-2 border-dark-green text-dark-green rounded-md hover:bg-blue-100 transition font-semibold"
                 >
                   Buy Now
                 </ProductItem.Button>
 
                 {/* Wishlist Button */}
-                <ProductItem.Button
+                {/* <ProductItem.Button
                   type="wishlist"
                   className="w-10 h-10 flex items-center justify-center text-red-500 rounded-full text-xl border-[1px] transition"
                   icon="fa-regular fa-heart"
-                />
+                /> */}
               </div>
             </div>
           </div>

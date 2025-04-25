@@ -10,7 +10,7 @@ const initialState = {
   categoryProduct: [],
   favoriteProducts: [],
   selectedCategory: 0,
-  isloading: true,
+  isProductLoading: true,
   isError: false,
 };
 
@@ -145,91 +145,94 @@ const productSlice = createSlice({
     },
     resetCategory(state){
       state.selectedCategory = 0;
+    },
+    setLoading(state){
+      state.isProductLoading = true;
     }
   },
   extraReducers(builder) {
     builder
       .addCase(fetchProducts.pending, (state) => {
-        state.isloading = true;
+        state.isProductLoading = true;
         state.isError = true;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.isloading = false;
+        state.isProductLoading = false;
         state.isError = false;
         state.products = action.payload;
       })
       .addCase(fetchProducts.rejected, (state) => {
         state.isError = true;
-        state.isloading = false;
+        state.isProductLoading = false;
       })
 
       //   singleProduct
       .addCase(selectProduct.pending, (state) => {
-        state.isloading = true;
+        state.isProductLoading = true;
         state.isError = true;
       })
       .addCase(selectProduct.fulfilled, (state, action) => {
-        state.isloading = false;
+        state.isProductLoading = false;
         state.selectedProduct = action.payload;
       })
       .addCase(selectProduct.rejected, (state) => {
         state.isError = true;
-        state.isloading = false;
+        state.isProductLoading = false;
       })
 
       // product images
       .addCase(fetchImages.pending, (state) => {
-        state.isloading = true;
+        state.isProductLoading = true;
         state.isError = true;
       })
       .addCase(fetchImages.fulfilled, (state, action) => {
         state.selectedImages = action.payload;
-        state.isloading = false;
+        state.isProductLoading = false;
       })
       .addCase(fetchImages.rejected, (state) => {
-        state.isloading = false;
+        state.isProductLoading = false;
         state.isError = true;
       })
 
       //carouesl
       .addCase(fetchCarousel.pending, (state) => {
-        state.isloading = true;
+        state.isProductLoading = true;
         state.isError = true;
       })
       .addCase(fetchCarousel.fulfilled, (state, action) => {
-        state.isloading = false;
+        state.isProductLoading = false;
         state.trendingProducts = action.payload.data;
       })
       .addCase(fetchCarousel.rejected, (state) => {
-        state.isloading = false;
+        state.isProductLoading = false;
         state.isError = true;
       })
 
       //categories
       .addCase(fetchCategories.pending, (state) => {
-        state.isloading = true;
+        state.isProductLoading = true;
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.isloading = false;
+        state.isProductLoading = false;
         state.isError = false;
         state.categories = action.payload;
       })
       .addCase(fetchCategories.rejected, (state) => {
-        state.isloading = false;
+        state.isProductLoading = false;
         state.isError = true;
       })
 
       //product search
       .addCase(searchProducts.pending, (state)=>{
-        state.isloading = true;
+        state.isProductLoading = true;
       })
       .addCase(searchProducts.fulfilled, (state,action)=>{
-        state.isloading = true;
-        console.log(state.isloading);
+        state.isProductLoading = false;
+        console.log(state.isProductLoading);
         state.products = action.payload;
       })
       .addCase(searchProducts.rejected, (state)=>{
-        state.isloading = false;
+        state.isProductLoading = false;
         state.isError = true;
       })
   },
@@ -237,4 +240,4 @@ const productSlice = createSlice({
 
 export default productSlice;
 
-export const { setCategory, resetCategory } = productSlice.actions;
+export const { setCategory, resetCategory, setLoading } = productSlice.actions;

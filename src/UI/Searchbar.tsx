@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "../store/slices";
-import { searchProducts } from "../store/slices/productSlice";
+import { searchProducts, setLoading } from "../store/slices/productSlice";
 
 const sortingArray = [
   { id: 1, title: "Newest", value: "new", field: "createdAt" },
@@ -63,11 +63,18 @@ const Searchbar: React.FC = () => {
 
     const query = queryParts.join("&");
     setQueryString(query);
-  }, [name, price_min, price_max, rating, discount, sortBy, sortOrder]);
 
-  function onfilterApply() {
-    dispatch(searchProducts(queryString));
-  }
+    dispatch(setLoading());
+    const timeout = setTimeout(() => {
+      dispatch(searchProducts(query));
+    }, 400);
+
+
+    return () => {
+      clearTimeout(timeout)
+    }
+
+  }, [name, price_min, price_max, rating, discount, sortBy, sortOrder]);
 
   function onSortProduct(val: string) {
     const selected = sortingArray.find((s) => s.value === val);
@@ -139,16 +146,8 @@ const Searchbar: React.FC = () => {
         type="text"
         placeholder="Search products..."
         value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="bg-white text-black border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
-      />
-
-      <input
-        type="button"
-        onClick={onfilterApply}
-        value="Go"
-        name="go"
-        className="bg-white text-black border border-gray-300 cursor-pointer px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
+        onChange={(e) => setName(e.target.value || '')}
+        className="bg-white text-black border border-gray-300 px-4 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
       />
     </div>
   );
