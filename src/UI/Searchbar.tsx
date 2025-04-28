@@ -142,13 +142,13 @@ const Searchbar: React.FC = () => {
         className="bg-white text-black border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
       />
 
-      <input
+      {/* <input
         type="text"
         placeholder="Search products..."
         value={name}
         onChange={(e) => setName(e.target.value || '')}
         className="bg-white text-black border border-gray-300 px-4 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
-      />
+      /> */}
     </div>
   );
 };

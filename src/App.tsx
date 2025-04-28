@@ -39,14 +39,16 @@ function App() {
         {
           path: "my",
           element: (
-            <ProtectedRoute>
               <ProfileLayout />
-            </ProtectedRoute>
           ),
           children: [
             {
               path: "profile",
-              element: <Profile />,
+              element: (
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              ),
             },
             {
               path: "cart",
@@ -80,10 +82,11 @@ function App() {
         },
         {
           path: "ChangePassword",
-          element: 
+          element: (
             <ProtectedRoute>
               <ChangePassword />,
-            </ProtectedRoute>,
+            </ProtectedRoute>
+          ),
         },
         {
           path: "reset-password",
