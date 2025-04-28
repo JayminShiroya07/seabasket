@@ -20,10 +20,10 @@ const DETAILS: Array<profileDetails> = [
     title: "Order",
     items: products.slice(3, 9),
   },
-  {
-    title: "Wishlist",
-    items: products.slice(2, 6),
-  },
+  // {
+  //   title: "Wishlist",
+  //   items: products.slice(2, 6),
+  // },
 ];
 
 const ICONS = {
